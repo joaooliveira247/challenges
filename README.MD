@@ -4,21 +4,13 @@ This repository is to solve some challenges from [Exercism](https://exercism.org
 
 You can choose any language to solve the challenges.
 
-## ⚠️ remember to put your nickname in folder name to submit you code.
-
-`ex:`
-
-`virusxdrj-hello`
-
-##
-
 # 🍯 Easy
 
-1. [Hello World](./hello/hello.md)
+1. [Hello World](./exercism/hello/)
 
-2. [Reverse](./reverse/reverse.md)
+2. [Reverse](./exercism/reverse/)
 
-3. [Difference of Squares](./diff_squares/diff_squares.md)
+3. [Difference of Squares](./exercism/diff_squares/)
 
 # 🤓 Medium
 
