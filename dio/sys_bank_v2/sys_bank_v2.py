@@ -1,5 +1,5 @@
 from __future__ import annotations
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 
 
@@ -28,12 +28,12 @@ class Cliente:
     data_nascimento: str
     cpf: str
     endereco: str
-    contas: list[ContaCorrente] | None = None
+    conta: ContaCorrente
 
 
 @dataclass
 class Bank:
-    clients: list[Cliente] = []
+    clients: list[Cliente] = field(default_factory=list)
 
 
 def menu() -> EnumOption | None:
@@ -58,21 +58,29 @@ def criar_conta(
     limite: float = 500.00,
 ) -> ContaCorrente:
     return ContaCorrente(
-        len(bank.clients) + 1,
-        saldo,
-        saques,
-        limite,
+        numero_conta=len(bank.clients) + 1,
+        saldo=saldo,
+        saques=saques,
+        limite=limite,
     )
+
+
+def get_conta(banco: Bank, numero: int) -> ContaCorrente | None:
+    for conta in banco.clients:
+        if conta.conta.numero_conta == numero:
+            return conta.conta
+    print("Conta não encontrada")
+    return None
 
 
 def criar_usuario(
     bank: Bank,
     conta: ContaCorrente,
+    *,
     nome: str,
     data_nascimento: str,
     cpf: str,
     endereco: str,
-    /,
 ) -> Cliente | None:
     for cliente in bank.clients:
         if cpf in cliente.cpf:
@@ -83,7 +91,7 @@ def criar_usuario(
         data_nascimento,
         cpf,
         endereco,
-        contas=[conta],
+        conta=conta,
     )
 
     bank.clients.append(cliente)
@@ -102,6 +110,7 @@ def sacar(conta: ContaCorrente, valor: float) -> None:
         print("Saldo insuficiente.")
         return
     conta.saldo -= valor
+    conta.extrato += "R$ {:.2f} removido.\n".format(valor)
     conta.saques -= 1
     return
 
@@ -117,20 +126,51 @@ def main() -> None:
     while True:
         user_input = menu()
         match user_input:
+            case EnumOption.criar_usuarios:
+                user = {
+                    "nome": "",
+                    "data_nascimento": "",
+                    "cpf": "",
+                    "endereco": "",
+                }
+                for v in user.keys():
+                    user_input = input(f"Digite o seu {v}".replace("_", " "))
+                    user[v] = user_input
+                saldo_inicial = input("Digite o saldo inicial.")
+                criar_usuario(
+                    bank,
+                    criar_conta(
+                        bank,
+                        saldo=float(saldo_inicial),
+                    ),
+                    **user,
+                )
             case EnumOption.sacar:
-                conta, valor = input("Digite o número da sua conta e valor.").split(
+                conta_id, valor = input("Digite o número da sua conta e valor.").split(
                     " ",
                 )
-                sacar(bank[conta], float(valor))
+                conta = get_conta(bank, int(conta_id))
+                if conta:
+                    sacar(conta, float(valor))
                 continue
             case EnumOption.depositar:
-                conta, valor = input("Digite o número da sua conta e valor.").split(
+                conta_id, valor = input("Digite o número da sua conta e valor.").split(
                     " ",
                 )
-                depositar(bank[conta], float(valor))
+                conta = get_conta(bank, int(conta_id))
+                if conta:
+                    depositar(conta, float(valor))
                 continue
             case EnumOption.extrato:
-                ...
+                conta_id = input("Digite o número da conta:\n")
+                conta = get_conta(bank, int(conta_id))
+                ver_extrato(conta)
+                continue
+            case EnumOption.listar_usuarios:
+                print(bank.clients)
+
+            case EnumOption.exit_:
+                break
             case None:
                 print("Opção invalida")
 
