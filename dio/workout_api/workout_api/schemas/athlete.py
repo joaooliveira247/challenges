@@ -1,8 +1,10 @@
-from pydantic import BaseModel, Field, PositiveInt, PositiveFloat
+from pydantic import Field, PositiveInt, PositiveFloat
 from typing import Annotated
 
+from workout_api.contrib.schemas import BaseSchema
 
-class AthleteSchema(BaseModel):
+
+class AthleteSchema(BaseSchema):
     name: Annotated[
         str,
         Field(
