@@ -7,7 +7,7 @@ from workout_api.contrib import BaseModel
 
 
 class AthleteModel(BaseModel):
-    __tablename__ = "Athletes"
+    __tablename__ = "athletes"
 
     pk_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(50), nullable=True)
@@ -18,10 +18,10 @@ class AthleteModel(BaseModel):
     sex: Mapped[str] = mapped_column(String(1), nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     category: Mapped["CategoryModel"] = relationship(back_populates="athlete")
-    category_id = Mapped[int] = mapped_column(ForeignKey("category.pk_id"))
+    category_id: Mapped[int] = mapped_column(ForeignKey("category.pk_id"))
     training_center: Mapped["TrainingCenterModel"] = relationship(
         back_populates="athlete",
     )
-    training_center_id = Mapped[int] = mapped_column(
+    training_center_id: Mapped[int] = mapped_column(
         ForeignKey("training_center.pk_id"),
     )
