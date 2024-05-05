@@ -1,5 +1,8 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import find_dotenv
+from pathlib import Path
+
+BASE_DIR: Path = Path(__file__).parent.parent.parent
 
 
 class Settings(BaseSettings):
