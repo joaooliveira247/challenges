@@ -8,7 +8,7 @@ class CategorySchema(BaseSchema):
         str,
         Field(
             description="Category name",
-            examples="Scale",
+            example="Scale",
             max_length=50,
         ),
     ]

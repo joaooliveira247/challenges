@@ -9,7 +9,7 @@ class AthleteSchema(BaseSchema):
         str,
         Field(
             description="Athlete name",
-            examples="John Doe",
+            example="John Doe",
             max_length=50,
         ),
     ]
@@ -17,7 +17,7 @@ class AthleteSchema(BaseSchema):
         PositiveInt,
         Field(
             description="Social Security Number",
-            examples="12345678900",
+            example="12345678900",
             max_length=11,
         ),
     ]
@@ -25,28 +25,28 @@ class AthleteSchema(BaseSchema):
         PositiveInt,
         Field(
             description="Athlete age",
-            examples=23,
+            example=23,
         ),
     ]
     weight: Annotated[
         PositiveFloat,
         Field(
             description="Athlete weight in kilograms",
-            examples=88.5,
+            example=88.5,
         ),
     ]
     height: Annotated[
         PositiveFloat,
         Field(
             description="Athlete height in kilograms",
-            examples=1.75,
+            example=1.75,
         ),
     ]
     sex: Annotated[
         str,
         Field(
             description="Sex",
-            examples=["M - Man", "W - Woman"],
+            example=["M - Man", "W - Woman"],
             max_length=1,
         ),
     ]
