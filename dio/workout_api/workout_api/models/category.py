@@ -8,5 +8,5 @@ class CategoryModel(BaseModel):
     __tablename__ = "Category"
 
     pk_id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String(50), nullable=True)
+    name: Mapped[str] = mapped_column(String(50), nullable=True, unique=True)
     athlete: Mapped["AthleteModel"] = relationship(back_populates="category")
