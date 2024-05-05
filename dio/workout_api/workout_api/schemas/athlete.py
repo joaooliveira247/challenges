@@ -1,7 +1,7 @@
 from pydantic import Field, PositiveInt, PositiveFloat
 from typing import Annotated
 
-from workout_api.contrib.schemas import BaseSchema
+from workout_api.contrib import BaseSchema
 
 
 class AthleteSchema(BaseSchema):

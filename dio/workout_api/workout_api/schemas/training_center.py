@@ -1,4 +1,4 @@
-from workout_api.contrib.schemas import BaseSchema
+from workout_api.contrib import BaseSchema
 from typing import Annotated
 from pydantic import Field
 
