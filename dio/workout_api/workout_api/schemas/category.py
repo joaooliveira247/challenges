@@ -1,9 +1,11 @@
-from workout_api.contrib import BaseSchema
 from typing import Annotated
-from pydantic import Field
+
+from pydantic import UUID4, Field
+
+from workout_api.contrib import BaseSchema
 
 
-class CategorySchema(BaseSchema):
+class CategorySchemaIn(BaseSchema):
     name: Annotated[
         str,
         Field(
@@ -12,3 +14,7 @@ class CategorySchema(BaseSchema):
             max_length=50,
         ),
     ]
+
+
+class CategorySchemaOut(CategorySchemaIn):
+    id: Annotated[UUID4, Field(description="ID")]
