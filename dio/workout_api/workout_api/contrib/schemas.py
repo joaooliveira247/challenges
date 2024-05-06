@@ -1,8 +1,6 @@
-from pydantic import BaseModel
-from pydantic import UUID4
+from pydantic import BaseModel, UUID4, Field
 from datetime import datetime
 from typing import Annotated
-from pydantic import Field
 
 
 class BaseSchema(BaseModel):
@@ -13,4 +11,6 @@ class BaseSchema(BaseModel):
 
 class OutMixin(BaseModel):
     id: Annotated[UUID4, Field(description="ID")]
-    created_at: Annotated[datetime, Field(description="Creation Date")]
+    created_at: Annotated[
+        datetime, Field(description="Creation Date", default=datetime.now())
+    ]
