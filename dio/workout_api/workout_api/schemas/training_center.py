@@ -1,14 +1,14 @@
 from workout_api.contrib import BaseSchema
 from typing import Annotated
-from pydantic import Field
+from pydantic import Field, UUID4
 
 
-class TrainingCenterSchema(BaseSchema):
+class TrainingCenterSchemaIn(BaseSchema):
     name: Annotated[
         str,
         Field(
             description="Training center name",
-            example="Tunder Bird",
+            example="Thunder Bird",
             max_length=20,
         ),
     ]
@@ -16,7 +16,7 @@ class TrainingCenterSchema(BaseSchema):
         str,
         Field(
             description="Training center address",
-            example="495 Grove Street, New York - USA",
+            example="495 Grove Street",
             max_length=20,
         ),
     ]
@@ -28,3 +28,18 @@ class TrainingCenterSchema(BaseSchema):
             max_length=30,
         ),
     ]
+
+
+class TrainingCenterAthlete(BaseSchema):
+    name: Annotated[
+        str,
+        Field(
+            description="Training center name",
+            example="Thunder bird",
+            max_length=20,
+        ),
+    ]
+
+
+class TrainingCenterSchemaOut(TrainingCenterSchemaIn):
+    id: Annotated[UUID4, Field(description="ID Training Center")]
