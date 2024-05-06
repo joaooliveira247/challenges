@@ -1,15 +1,13 @@
+from asyncio import run
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool, Connection
+from alembic import context
+from sqlalchemy import Connection, engine_from_config, pool
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
-from alembic import context
-from asyncio import run
-
-from workout_api.contrib.models import BaseModel
-from workout_api.models import AthleteModel, CategoryModel, TrainingCenterModel
+from workout_api.contrib import BaseModel
 from workout_api.core import settings
+from workout_api.models import AthleteModel, CategoryModel, TrainingCenterModel
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
