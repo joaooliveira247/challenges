@@ -53,7 +53,22 @@ make run
 ```
 
 ## Usage libraries 🐍:
-### [Typer v0.4.1](https://typer.tiangolo.com/).
+
+### [Fastapi](https://fastapi.tiangolo.com/)
+
+### [uvicorn](https://www.uvicorn.org/)
+
+### [sqlalchemy](https://www.sqlalchemy.org/)
+
+### [Typer](https://typer.tiangolo.com/)
+
+### [Alembic](https://alembic.sqlalchemy.org/en/latest/)
+
+### [Pydantic & Pydantic-settings](https://docs.pydantic.dev/latest/)
+
+### [asyncpg](https://pypi.org/project/asyncpg/)
+
+### [Fastapi-pagination](https://uriyyo-fastapi-pagination.netlify.app/)
 
 ## Challenges 🏆
 
