@@ -86,7 +86,7 @@ async def post(
 
 
 @athlete_controller.get(
-    "/",
+    "/all",
     summary="Get all athletes.",
     status_code=status.HTTP_200_OK,
     response_model=list[AthleteSchemaOut],
