@@ -2,6 +2,7 @@ import uvicorn
 from alembic import command
 from alembic.config import Config
 from typer import Typer
+from subprocess import Popen
 
 from workout_api.core import BASE_DIR
 
@@ -26,3 +27,8 @@ def create_migrations(autogenerate: bool, msg: str) -> None:
 @cli.command()
 def run_migrations() -> None:
     command.upgrade(alembic_cfg, "head")
+
+
+@cli.command()
+def run_docker() -> None:
+    Popen("docker compose up -d", shell=True)
