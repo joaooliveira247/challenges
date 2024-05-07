@@ -28,25 +28,31 @@ This project use a packaging and dependency management called [poetry](https://p
 
 ## Documentation 📜:
 
-TODO
+- 🐋 Start docker with database.
+
 ```bash
 make run-docker
 ```
 
-TODO args
+- 📋 Create a migration and put it on staging area.
+
 ```bash
-make create-migrations --name
+make create-migrations name
 ```
+
+- 📋 Run migrate on models and databases.
 
 ```bash
 make run-migrations
 ```
 
+- 🏋️ Run API
+
 ```bash
 make run
 ```
 
-## Usage libraries :snake::
+## Usage libraries 🐍:
 ### [Typer v0.4.1](https://typer.tiangolo.com/).
 
 ## Challenges 🏆
