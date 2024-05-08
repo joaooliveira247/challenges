@@ -1,8 +1,9 @@
+from typing import Annotated
 from uuid import uuid4
-from pprint import pprint
 
-from fastapi import APIRouter, Body, HTTPException, status
+from fastapi import APIRouter, Body, HTTPException, Query, status
 from pydantic import UUID4
+from sqlalchemy import func
 from sqlalchemy.future import select
 
 from workout_api.core import DatabaseDependency
@@ -117,6 +118,40 @@ async def query_id(id: UUID4, db_session: DatabaseDependency) -> AthleteSchemaOu
             detail=f"Athlete not found in id: {id}",
         )
     return athlete
+
+
+@athlete_controller.get(
+    "/",
+    summary="Return athletes by name or ssn",
+    status_code=status.HTTP_200_OK,
+    response_model=list[AthleteSchemaOut] | AthleteSchemaOut,
+)
+async def query_parameter(
+    db_session: DatabaseDependency,
+    name: Annotated[str | None, Query(max_length=50)] = None,
+    ssn: Annotated[str | None, Query(max_length=11)] = None,
+) -> list[AthleteSchemaOut] | AthleteSchemaOut:
+
+    athlete_ssn = (
+        (await db_session.execute(select(AthleteModel).filter_by(ssn=ssn)))
+        .scalars()
+        .first()
+    )
+    if athlete_ssn:
+        return athlete_ssn
+    athlete_name = (
+        (
+            (
+                await db_session.execute(
+                    select(AthleteModel).filter(AthleteModel.name.icontains(name))
+                )
+            )
+        )
+        .scalars()
+        .all()
+    )
+    print(athlete_name)
+    return athlete_name
 
 
 @athlete_controller.patch(
