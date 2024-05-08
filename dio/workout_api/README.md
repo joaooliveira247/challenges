@@ -72,10 +72,10 @@ make run
 
 ## Challenges 🏆
 
-- [adicionar query parameters nos endpoints]()
+- [adicionar query parameters nos endpoints](https://github.com/joaooliveira247/challenges/blob/main/dio/workout_api/workout_api/controllers/athlete.py#L129)
     - atleta
         - nome
-        - cpf
+        - cpf / ssn
 - [customizar response de retorno de endpoints]()
     - get all
         - atleta
