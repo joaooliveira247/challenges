@@ -150,7 +150,6 @@ async def query_parameter(
         .scalars()
         .all()
     )
-    print(athlete_name)
     return athlete_name
 
 
