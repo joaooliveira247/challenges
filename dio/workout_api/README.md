@@ -76,7 +76,7 @@ make run
     - atleta
         - nome
         - cpf / ssn
-- [customizar response de retorno de endpoints]()
+- [customizar response de retorno de endpoints](https://github.com/joaooliveira247/challenges/blob/main/dio/workout_api/workout_api/controllers/athlete.py#L100)
     - get all
         - atleta
             - nome
