@@ -102,3 +102,21 @@ class AthleteSchemaIn(AthleteSchema): ...
 
 
 class AthleteSchemaOut(AthleteSchema, OutMixin): ...
+
+
+class NewAthleteSchemaOut(BaseSchema):
+    name: Annotated[
+        str,
+        Field(
+            description="Athlete name",
+            example="John Doe",
+            max_length=50,
+        ),
+    ]
+    category: Annotated[
+        CategorySchemaIn,
+        Field(description="Athlete Category"),
+    ]
+    training_center: Annotated[
+        TrainingCenterAthlete, Field(description="Athlete training center.")
+    ]
