@@ -8,7 +8,12 @@ from sqlalchemy.future import select
 
 from workout_api.core import DatabaseDependency
 from workout_api.models import AthleteModel, CategoryModel, TrainingCenterModel
-from workout_api.schemas import AthletePatchSchema, AthleteSchemaIn, AthleteSchemaOut
+from workout_api.schemas import (
+    AthletePatchSchema,
+    AthleteSchemaIn,
+    AthleteSchemaOut,
+    NewAthleteSchemaOut,
+)
 
 athlete_controller = APIRouter()
 
@@ -90,10 +95,10 @@ async def post(
     "/all",
     summary="Get all athletes.",
     status_code=status.HTTP_200_OK,
-    response_model=list[AthleteSchemaOut],
+    response_model=list[NewAthleteSchemaOut],
 )
-async def query(db_session: DatabaseDependency) -> list[AthleteSchemaOut]:
-    athletes: list[AthleteSchemaOut] = (
+async def query(db_session: DatabaseDependency) -> list[NewAthleteSchemaOut]:
+    athletes: list[NewAthleteSchemaOut] = (
         (await db_session.execute(select(AthleteModel))).scalars().all()
     )
 
