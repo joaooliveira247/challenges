@@ -94,8 +94,14 @@ make run
 
         - [categoria](https://github.com/joaooliveira247/challenges/blob/main/dio/workout_api/workout_api/controllers/category.py#L31)
 
-- [Adicionar paginação utilizando a lib: fastapi-pagination]()
+- Adicionar paginação utilizando a lib: fastapi-pagination.
     - limit e offset
+
+        - [atletas](https://github.com/joaooliveira247/challenges/blob/main/dio/workout_api/workout_api/controllers/athlete.py#L104)
+
+        - [categoria](https://github.com/joaooliveira247/challenges/blob/main/dio/workout_api/workout_api/controllers/category.py#L48)
+
+        - [centro treinamento](https://github.com/joaooliveira247/challenges/blob/main/dio/workout_api/workout_api/controllers/training_center.py#L51)
 
 ## This project was based 🤝:
 
