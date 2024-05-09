@@ -2,6 +2,7 @@ from uuid import uuid4
 
 from fastapi import APIRouter, Body, HTTPException, status
 from pydantic import UUID4
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
 
 from workout_api.core import DatabaseDependency
@@ -26,9 +27,15 @@ async def post(
     )
     training_model = TrainingCenterModel(**training_out.model_dump())
 
-    db_session.add(training_model)
+    try:
+        db_session.add(training_model)
 
-    await db_session.commit()
+        await db_session.commit()
+    except IntegrityError:
+        raise HTTPException(
+            status_code=status.HTTP_303_SEE_OTHER,
+            detail="Training center already exists in database.",
+        )
 
     return training_out
 
