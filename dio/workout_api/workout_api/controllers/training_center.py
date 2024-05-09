@@ -1,6 +1,8 @@
 from uuid import uuid4
 
 from fastapi import APIRouter, Body, HTTPException, status
+from fastapi_pagination import LimitOffsetPage, paginate
+from fastapi_pagination.utils import disable_installed_extensions_check
 from pydantic import UUID4
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
@@ -44,13 +46,16 @@ async def post(
     "/",
     summary="Get all training center.",
     status_code=status.HTTP_200_OK,
-    response_model=list[TrainingCenterSchemaOut],
+    response_model=LimitOffsetPage[TrainingCenterSchemaOut],
 )
-async def query(db_session: DatabaseDependency) -> list[TrainingCenterSchemaOut]:
+async def query(
+    db_session: DatabaseDependency,
+) -> LimitOffsetPage[TrainingCenterSchemaOut]:
     training_centers: list[TrainingCenterSchemaOut] = (
         (await db_session.execute(select(TrainingCenterModel))).scalars().all()
     )
-    return training_centers
+    disable_installed_extensions_check()
+    return paginate(training_centers)
 
 
 @training_center_controller.get(
