@@ -3,7 +3,6 @@ from uuid import uuid4
 
 from fastapi import APIRouter, Body, HTTPException, Query, status
 from pydantic import UUID4
-from sqlalchemy import func
 from sqlalchemy.future import select
 
 from workout_api.core import DatabaseDependency
@@ -76,13 +75,11 @@ async def post(
     athlete_model.category_id = category.pk_id
     athlete_model.training_center_id = training_center.pk_id
 
-    print(athlete_model.__dict__)
     try:
         db_session.add(athlete_model)
 
         await db_session.commit()
     except Exception as e:
-        print(e)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Error when try insert data on database.",
