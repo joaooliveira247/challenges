@@ -2,6 +2,7 @@ from typing import Annotated
 from uuid import uuid4
 
 from fastapi import APIRouter, Body, HTTPException, Query, status
+from fastapi_pagination import LimitOffsetPage, paginate
 from pydantic import UUID4
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
@@ -98,14 +99,14 @@ async def post(
     "/all",
     summary="Get all athletes.",
     status_code=status.HTTP_200_OK,
-    response_model=list[NewAthleteSchemaOut],
+    response_model=LimitOffsetPage[NewAthleteSchemaOut],
 )
-async def query(db_session: DatabaseDependency) -> list[NewAthleteSchemaOut]:
+async def query(db_session: DatabaseDependency) -> LimitOffsetPage[NewAthleteSchemaOut]:
     athletes: list[NewAthleteSchemaOut] = (
         (await db_session.execute(select(AthleteModel))).scalars().all()
     )
 
-    return athletes
+    return paginate(athletes)
 
 
 @athlete_controller.get(
