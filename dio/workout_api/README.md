@@ -82,9 +82,18 @@ make run
             - nome
             - centro_treinamento
             - categoria
-- [Manipular exceção de integridade dos dados em cada módulo/tabela]()
+- Manipular exceção de integridade dos dados em cada módulo/tabela.
+
     - sqlalchemy.exc.IntegrityError e devolver a seguinte mensagem: “Já existe um atleta cadastrado com o cpf: x”
+
     - status_code: 303
+
+        - [atleta](https://github.com/joaooliveira247/challenges/blob/main/dio/workout_api/workout_api/controllers/athlete.py#L83)
+
+        - [centro de treinamento](https://github.com/joaooliveira247/challenges/blob/main/dio/workout_api/workout_api/controllers/training_center.py#L34)
+
+        - [categoria](https://github.com/joaooliveira247/challenges/blob/main/dio/workout_api/workout_api/controllers/category.py#L31)
+
 - [Adicionar paginação utilizando a lib: fastapi-pagination]()
     - limit e offset
 
