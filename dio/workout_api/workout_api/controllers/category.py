@@ -1,6 +1,8 @@
 from uuid import uuid4
 
 from fastapi import APIRouter, Body, HTTPException, status
+from fastapi_pagination import LimitOffsetPage, paginate
+from fastapi_pagination.utils import disable_installed_extensions_check
 from pydantic import UUID4
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
@@ -41,13 +43,14 @@ async def post(
     "/",
     summary="Get all categories.",
     status_code=status.HTTP_200_OK,
-    response_model=list[CategorySchemaOut],
+    response_model=LimitOffsetPage[CategorySchemaOut],
 )
-async def query(db_session: DatabaseDependency) -> list[CategorySchemaOut]:
+async def query(db_session: DatabaseDependency) -> LimitOffsetPage[CategorySchemaOut]:
     categories: list[CategorySchemaOut] = (
         (await db_session.execute(select(CategoryModel))).scalars().all()
     )
-    return categories
+    disable_installed_extensions_check()
+    return paginate(categories)
 
 
 @category_controller.get(
