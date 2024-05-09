@@ -2,6 +2,7 @@ from uuid import uuid4
 
 from fastapi import APIRouter, Body, HTTPException, status
 from pydantic import UUID4
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
 
 from workout_api.core import DatabaseDependency
@@ -23,9 +24,15 @@ async def post(
     category_out = CategorySchemaOut(id=uuid4(), **category_in.model_dump())
     category_model = CategoryModel(**category_out.model_dump())
 
-    db_session.add(category_model)
+    try:
+        db_session.add(category_model)
 
-    await db_session.commit()
+        await db_session.commit()
+    except IntegrityError:
+        raise HTTPException(
+            status_code=status.HTTP_303_SEE_OTHER,
+            detail="Category already exists in database.",
+        )
 
     return category_out
 
