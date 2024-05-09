@@ -3,6 +3,7 @@ from uuid import uuid4
 
 from fastapi import APIRouter, Body, HTTPException, Query, status
 from pydantic import UUID4
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
 
 from workout_api.core import DatabaseDependency
@@ -79,7 +80,12 @@ async def post(
         db_session.add(athlete_model)
 
         await db_session.commit()
-    except Exception as e:
+    except IntegrityError:
+        raise HTTPException(
+            status_code=status.HTTP_303_SEE_OTHER,
+            detail="ssn already exists in database.",
+        )
+    except Exception:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Error when try insert data on database.",
