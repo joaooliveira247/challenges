@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  mongo_db:
+    image: "bitnami/mongodb:latest"
+    ports:
+      - 27017:27017
+    restart: "no"
+    enviroment:
+      - MONGODB_ROOT_USER: user
+      - MONGODB_ROOT_PASSWORD: passwd
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_REPLICA_SET_NAME=rs0
+      - MONGODB_ADVERTISED_HOSTNAME=localhost
