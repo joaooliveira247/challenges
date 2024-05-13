@@ -5,6 +5,7 @@ from store_api.schemas import ProductIn, ProductUpdate
 from tests.factories import product_data
 from uuid import UUID
 from motor.motor_asyncio import AsyncIOMotorClient
+from store_api.usecases import product_usecase
 
 
 @fixture(scope="session")
@@ -43,3 +44,8 @@ def product_in(product_id):
 @fixture
 def product_up(product_id):
     return ProductUpdate(**product_data(), id=product_id)
+
+
+@fixture
+async def product_inserted(product_in):
+    return await product_usecase.create(body=product_in)
