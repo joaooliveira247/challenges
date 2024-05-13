@@ -57,3 +57,15 @@ async def test_usecases_delete_return_success(product_id, product_in):
     result = await product_usecase.delete(id=product_id)
 
     assert result is True
+
+
+async def test_usecases_delete_should_return_not_found(product_id):
+    with raises(DBNotFoundValueException) as err:
+        await product_usecase.get(
+            id=UUID("9b6efc62-acda-44fb-9f5f-9f86aa3efbd3"),
+        )
+
+    assert (
+        err.value.message
+        == "Product not found with UUID(9b6efc62-acda-44fb-9f5f-9f86aa3efbd3)"
+    )
