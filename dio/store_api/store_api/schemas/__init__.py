@@ -1,5 +1,3 @@
-from store_api.schemas.products import ProductIn
+from store_api.schemas.products import ProductIn, ProductOut
 
-__all__ = [
-    "ProductIn",
-]
+__all__ = ["ProductIn", "ProductOut"]
