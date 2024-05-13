@@ -11,6 +11,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 def event_loop():
     loop = get_event_loop_policy().new_event_loop()
     yield loop
+    loop.close()
 
 
 @fixture
