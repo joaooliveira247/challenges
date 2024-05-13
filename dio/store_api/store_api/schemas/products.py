@@ -1,8 +1,10 @@
 from typing import Optional
 
-from pydantic import BaseModel, Field, PositiveFloat, PositiveInt
+from pydantic import BaseModel, Field, PositiveFloat, PositiveInt, UUID4
 
 from store_api.schemas.base import BaseSchemaMixin
+
+from datetime import datetime
 
 
 class ProductBase(BaseModel):
@@ -17,7 +19,9 @@ class ProductIn(ProductBase, BaseSchemaMixin):
 
 
 class ProductOut(ProductIn):
-    ...
+    id: UUID4 = Field()
+    created_at: datetime = Field()
+    updated_at: datetime = Field()
 
 
 class ProductUpdate(ProductBase):
