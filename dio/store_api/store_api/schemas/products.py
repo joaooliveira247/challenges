@@ -10,5 +10,9 @@ class ProductBase(BaseSchemaMixin):
     status: bool = Field(..., description="Product status")
 
 
+class ProductIn(ProductBase):
+    ...
+
+
 class ProductOut(ProductBase):
     ...
