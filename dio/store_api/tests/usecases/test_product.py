@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from pytest import raises
+from pytest import raises, mark
 
 from store_api.core.exceptions import DBNotFoundValueException
 from store_api.schemas import ProductOut, ProductUpdateOut
@@ -33,10 +33,12 @@ async def test_usecases_get_should_return_not_found():
     )
 
 
+@mark.usefixtures("products_inserted")
 async def test_usecases_query_should_return_success():
     result = await product_usecase.query()
 
     assert isinstance(result, list)
+    assert len(result) > 1
 
 
 async def test_usecases_update_should_return_success(
