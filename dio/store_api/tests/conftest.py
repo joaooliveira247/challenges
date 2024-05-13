@@ -1,7 +1,7 @@
 from asyncio import get_event_loop_policy
 from pytest import fixture
 from store_api.db import db_client
-from store_api.schemas import ProductIn
+from store_api.schemas import ProductIn, ProductUpdate
 from tests.factories import product_data
 from uuid import UUID
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -38,3 +38,8 @@ def product_id():
 @fixture
 def product_in(product_id):
     return ProductIn(**product_data(), id=product_id)
+
+
+@fixture
+def product_up(product_id):
+    return ProductUpdate(**product_data(), id=product_id)
