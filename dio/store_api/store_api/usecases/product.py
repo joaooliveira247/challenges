@@ -4,7 +4,9 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 
 from store_api.core.exceptions import DBNotFoundValueException
 from store_api.db import db_client
-from store_api.schemas import ProductIn, ProductOut
+from store_api.schemas import ProductIn, ProductOut, ProductUpdate, ProductUpdateOut
+
+from pymongo import ReturnDocument
 
 
 class ProductUseCase:
@@ -26,6 +28,17 @@ class ProductUseCase:
                 f"Product not found with UUID({id})",
             )
         return ProductOut(**result)
+
+    async def query(self) -> list[ProductOut]:
+        return [ProductOut(**product) async for product in self.collection.find()]
+
+    async def update(self, id: UUID, body: ProductUpdate) -> ProductOut:
+        result = await self.collection.find_one_and_update(
+            {"id": id},
+            update={"$set": body.model_dump(exclude_none=True)},
+            return_document=ReturnDocument.AFTER,
+        )
+        return ProductUpdateOut(**result)
 
 
 product_usecase = ProductUseCase()
