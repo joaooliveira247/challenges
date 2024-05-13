@@ -2,7 +2,7 @@ from asyncio import get_event_loop_policy
 from pytest import fixture
 from store_api.db import db_client
 from store_api.schemas import ProductIn, ProductUpdate
-from tests.factories import product_data
+from tests.factories import product_data, products_data
 from uuid import UUID
 from motor.motor_asyncio import AsyncIOMotorClient
 from store_api.usecases import product_usecase
@@ -42,6 +42,11 @@ def product_in(product_id):
 
 
 @fixture
+def products_in():
+    return [ProductIn(**product) for product in products_data()]
+
+
+@fixture
 def product_up(product_id):
     return ProductUpdate(**product_data(), id=product_id)
 
@@ -49,3 +54,8 @@ def product_up(product_id):
 @fixture
 async def product_inserted(product_in):
     return await product_usecase.create(body=product_in)
+
+
+@fixture
+async def products_inserted(products_in):
+    return [await product_usecase.create(body=product) for product in products_in]
