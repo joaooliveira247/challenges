@@ -7,3 +7,5 @@ precommit-check:
 	@poetry run pre-commit run --files .
 test:
 	@poetry run pytest
+test-matching:
+	@poetry run pytest -s -rx -k $(K) --pdb ./tests/
