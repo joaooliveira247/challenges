@@ -38,7 +38,9 @@ def product_id():
 
 @fixture
 def product_in(product_id):
-    return ProductIn(**product_data(), id=product_id)
+    product = ProductIn(**product_data(), id=product_id)
+
+    return product
 
 
 @fixture
