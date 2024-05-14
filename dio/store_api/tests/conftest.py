@@ -43,6 +43,11 @@ async def client() -> AsyncGenerator[AsyncClient]:
 
 
 @fixture
+async def products_url() -> str:
+    return "/products/"
+
+
+@fixture
 def product_id():
     return UUID("b065336f-a3d5-42a1-a45a-9a01566e97be")
 
