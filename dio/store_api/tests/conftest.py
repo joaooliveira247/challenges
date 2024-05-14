@@ -1,11 +1,16 @@
 from asyncio import get_event_loop_policy
+from typing import AsyncGenerator
+from uuid import UUID
+
+from httpx import AsyncClient
+from motor.motor_asyncio import AsyncIOMotorClient
 from pytest import fixture
+
+from store_api import app
 from store_api.db import db_client
 from store_api.schemas import ProductIn, ProductUpdate
-from tests.factories import product_data, products_data
-from uuid import UUID
-from motor.motor_asyncio import AsyncIOMotorClient
 from store_api.usecases import product_usecase
+from tests.factories import product_data, products_data
 
 
 @fixture(scope="session")
@@ -29,6 +34,12 @@ async def clear_collections(mongo_client: AsyncIOMotorClient):
             continue
 
         await mongo_client.get_database()[collection_name].delete_many({})
+
+
+@fixture
+async def client() -> AsyncGenerator[AsyncClient]:
+    async with AsyncClient(app=app, base_url="http://test") as ac:
+        yield ac
 
 
 @fixture
