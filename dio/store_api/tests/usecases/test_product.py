@@ -14,8 +14,8 @@ async def test_usecases_create_should_return_sucess(product_in):
     assert result.name == "Iphone 14 Pro Max"
 
 
-async def test_usecases_get_should_return_success(product_inserted, product_id):
-    result = await product_usecase.get(id=product_id)
+async def test_usecases_get_should_return_success(product_inserted):
+    result = await product_usecase.get(id=product_inserted.id)
 
     assert isinstance(result, ProductOut)
     assert result.name == "Iphone 14 Pro Max"
@@ -41,17 +41,15 @@ async def test_usecases_query_should_return_success():
     assert len(result) > 1
 
 
-async def test_usecases_update_should_return_success(
-    product_id, product_inserted, product_up
-):
+async def test_usecases_update_should_return_success(product_inserted, product_up):
     product_up.price = 7500.00
-    result = await product_usecase.update(id=product_id, body=product_up)
+    result = await product_usecase.update(id=product_inserted.id, body=product_up)
 
     assert isinstance(result, ProductUpdateOut)
 
 
-async def test_usecases_delete_return_success(product_id, product_inserted):
-    result = await product_usecase.delete(id=product_id)
+async def test_usecases_delete_return_success(product_inserted):
+    result = await product_usecase.delete(id=product_inserted.id)
 
     assert result is True
 
