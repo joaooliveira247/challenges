@@ -12,3 +12,12 @@ async def test_controller_create_should_return_sucess(client, products_url):
 
     assert response.status_code == status.HTTP_201_CREATED
     assert content == product_data()
+
+
+async def test_controller_get_should_return_sucess(
+    client, products_url, product_inserted
+):
+    response = await client.get(f"{products_url}{product_inserted.id}")
+
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json() == product_inserted.json()
