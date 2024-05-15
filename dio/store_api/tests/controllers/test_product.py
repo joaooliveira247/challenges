@@ -36,3 +36,12 @@ async def test_controller_get_should_return_404(client, products_url, product_id
     assert response.json() == {
         "detail": "b065336f-a3d5-42a1-a45a-9a01566e97be not found."
     }
+
+
+async def test_controller_get_all_should_return_sucess(
+    client, products_url, products_inserted
+):
+    response = await client.get(f"{products_url}/all")
+
+    assert response.status_code == status.HTTP_200_OK
+    assert len(response.json()) > 1
