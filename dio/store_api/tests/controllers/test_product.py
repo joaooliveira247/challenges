@@ -27,3 +27,12 @@ async def test_controller_get_should_return_sucess(
 
     assert response.status_code == status.HTTP_200_OK
     assert content == product_data()
+
+
+async def test_controller_get_should_return_404(client, products_url, product_id):
+    response = await client.get("{}{}".format(products_url, product_id))
+
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+    assert response.json() == {
+        "detail": "b065336f-a3d5-42a1-a45a-9a01566e97be not found."
+    }
