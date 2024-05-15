@@ -1,5 +1,4 @@
 from asyncio import get_event_loop_policy
-from typing import AsyncGenerator
 from uuid import UUID
 
 from httpx import AsyncClient
@@ -37,7 +36,7 @@ async def clear_collections(mongo_client: AsyncIOMotorClient):
 
 
 @fixture
-async def client() -> AsyncGenerator[AsyncClient]:
+async def client():
     async with AsyncClient(app=app, base_url="http://test") as ac:
         yield ac
 
