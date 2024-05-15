@@ -26,3 +26,12 @@ async def get(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"{id} not found."
         )
+
+
+@product_controller.get(
+    path="/", status_code=status.HTTP_200_OK, response_model=list[ProductOut]
+)
+async def query(
+    usecase: ProductUseCase = Depends(),
+) -> list[ProductOut]:
+    return await usecase.query()
