@@ -41,7 +41,7 @@ async def test_controller_get_should_return_404(client, products_url, product_id
 async def test_controller_get_all_should_return_sucess(
     client, products_url, products_inserted
 ):
-    response = await client.get(f"{products_url}/all")
+    response = await client.get(f"{products_url}")
 
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()) > 1
