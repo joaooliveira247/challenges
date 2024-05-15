@@ -19,5 +19,11 @@ async def test_controller_get_should_return_sucess(
 ):
     response = await client.get(f"{products_url}{product_inserted.id}")
 
+    content: dict = {
+        k: v
+        for k, v in response.json().items()
+        if k not in ["id", "created_at", "updated_at"]
+    }
+
     assert response.status_code == status.HTTP_200_OK
-    assert response.json() == product_inserted.json()
+    assert content == product_data()
