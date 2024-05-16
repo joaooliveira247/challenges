@@ -1,5 +1,10 @@
 from fastapi import APIRouter, status, Body, Depends, HTTPException, Path
-from store_api.schemas.products import ProductIn, ProductOut
+from store_api.schemas.products import (
+    ProductIn,
+    ProductOut,
+    ProductUpdateOut,
+    ProductUpdate,
+)
 from store_api.usecases.product import ProductUseCase
 from pydantic import UUID4
 from store_api.core.exceptions import DBNotFoundValueException
@@ -35,3 +40,16 @@ async def query(
     usecase: ProductUseCase = Depends(),
 ) -> list[ProductOut]:
     return await usecase.query()
+
+
+@product_controller.patch(
+    path="/{id}",
+    status_code=status.HTTP_202_ACCEPTED,
+    response_model=ProductUpdateOut,
+)
+async def patch(
+    id: UUID4 = Path(alias="id"),
+    body: ProductUpdate = Body(...),
+    usecase: ProductUseCase = Depends(),
+) -> ProductUpdateOut:
+    return await usecase.update(id, body=body)
