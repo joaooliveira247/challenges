@@ -72,3 +72,13 @@ async def test_controller_delete_should_return_no_content(
     response = await client.delete(f"{products_url}{product_inserted.id}")
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
+
+
+async def test_controller_delete_should_raise_404(client, products_url, product_id):
+    response = await client.delete(f"{products_url}{product_id}")
+
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+
+    assert response.json() == {
+        "detail": "b065336f-a3d5-42a1-a45a-9a01566e97be not found."
+    }
