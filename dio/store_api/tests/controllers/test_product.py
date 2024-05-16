@@ -64,3 +64,11 @@ async def test_controller_patch_should_return_sucess(
 
     assert response.status_code == status.HTTP_202_ACCEPTED
     assert product_in == product
+
+
+async def test_controller_delete_should_return_no_content(
+    client, products_url, product_inserted
+):
+    response = await client.delete(f"{products_url}{product_inserted.id}")
+
+    assert response.status_code == status.HTTP_204_NO_CONTENT
