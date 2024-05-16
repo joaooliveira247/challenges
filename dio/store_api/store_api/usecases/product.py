@@ -34,10 +34,9 @@ class ProductUseCase:
         return [ProductOut(**product) async for product in self.collection.find()]
 
     async def update(self, id: UUID, body: ProductUpdate) -> ProductOut:
-        product = ProductUpdate(**body.model_dump(exclude_none=True))
         result = await self.collection.find_one_and_update(
             {"id": id},
-            update={"$set": product.model_dump()},
+            update={"$set": body.model_dump(exclude_none=True)},
             return_document=ReturnDocument.AFTER,
         )
         return ProductUpdateOut(**result)
