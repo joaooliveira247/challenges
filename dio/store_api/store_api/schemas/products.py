@@ -30,11 +30,11 @@ class ProductOut(ProductIn, OutMixin):
 Decimal_ = Annotated[Decimal, AfterValidator(lambda v: Decimal128(str(v)))]
 
 
-class ProductUpdate(ProductBase):
+class ProductUpdate(BaseSchemaMixin):
     quantity: Optional[PositiveInt] = Field(None, description="Product quantity")
     price: Optional[Decimal_] = Field(None, description="Product price")
     status: Optional[bool] = Field(None, description="Product status")
 
 
-class ProductUpdateOut(ProductUpdate, OutMixin):
+class ProductUpdateOut(ProductOut):
     ...
