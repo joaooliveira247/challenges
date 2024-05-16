@@ -45,3 +45,22 @@ async def test_controller_get_all_should_return_sucess(
 
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()) > 1
+
+
+async def test_controller_patch_should_return_sucess(
+    client, products_url, product_inserted
+):
+    response = await client.patch(
+        f"{products_url}{product_inserted.id}", json={"quantity": 40}
+    )
+
+    product = product_data()
+    product["quantity"] = 40
+    product_in = {
+        k: v
+        for k, v in response.json().items()
+        if k not in ["id", "created_at", "updated_at"]
+    }
+
+    assert response.status_code == status.HTTP_202_ACCEPTED
+    assert product_in == product
