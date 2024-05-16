@@ -1,6 +1,7 @@
 run:
 	@uvicorn store_api.main:app --reload
-
+run-docker:
+	docker compose up -d
 precommit-install:
 	@poetry run pre-commit install
 precommit-check:
