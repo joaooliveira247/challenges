@@ -53,3 +53,16 @@ async def patch(
     usecase: ProductUseCase = Depends(),
 ) -> ProductUpdateOut:
     return await usecase.update(id, body=body)
+
+
+@product_controller.delete(path="/{id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete(
+    id: UUID4 = Path(...),
+    usecase: ProductUseCase = Depends(),
+) -> None:
+    try:
+        return await usecase.delete(id)
+    except DBNotFoundValueException:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"{id} not found."
+        )
