@@ -7,7 +7,7 @@ from store_api.schemas.products import (
 )
 from store_api.usecases.product import ProductUseCase
 from pydantic import UUID4
-from store_api.core.exceptions import DBNotFoundValueException
+from store_api.core.exceptions import DBNotFoundValueException, ProductAlreadyExists
 
 product_controller = APIRouter(tags=["products"])
 
@@ -17,14 +17,13 @@ async def post(
     body: ProductIn = Body(...),
     usecase: ProductUseCase = Depends(),
 ) -> ProductOut:
-    result = await usecase.get_by_name(body.name)
-
-    if not result:
+    try:
         return await usecase.create(body=body)
-    raise HTTPException(
-        status.HTTP_406_NOT_ACCEPTABLE,
-        f"Product already exists in id:{result.id}",
-    )
+    except ProductAlreadyExists as err:
+        raise HTTPException(
+            status.HTTP_406_NOT_ACCEPTABLE,
+            err.message,
+        )
 
 
 @product_controller.get(path="/{id}", status_code=status.HTTP_200_OK)
