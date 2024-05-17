@@ -1,8 +1,9 @@
+from __future__ import annotations
 from uuid import UUID
 
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 
-from store_api.core.exceptions import DBNotFoundValueException
+from store_api.core.exceptions import DBNotFoundValueException, ProductAlreadyExists
 from store_api.db import db_client
 from store_api.schemas import ProductIn, ProductOut, ProductUpdate, ProductUpdateOut
 from store_api.models import ProductModel
@@ -18,6 +19,11 @@ class ProductUseCase:
 
     async def create(self, body: ProductIn) -> ProductOut:
         product = ProductModel(**body.model_dump())
+        exists = await self.collection.find_one({"name": body.name})
+        if exists:
+            raise ProductAlreadyExists(
+                f"Product already exists in id: {exists['id']}",
+            )
         await self.collection.insert_one(product.model_dump())
         return ProductOut(**product.model_dump())
 
