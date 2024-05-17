@@ -17,7 +17,14 @@ async def post(
     body: ProductIn = Body(...),
     usecase: ProductUseCase = Depends(),
 ) -> ProductOut:
-    return await usecase.create(body=body)
+    result = await usecase.get_by_name(body.name)
+
+    if not result:
+        return await usecase.create(body=body)
+    raise HTTPException(
+        status.HTTP_406_NOT_ACCEPTABLE,
+        f"Product already exists in id:{result.id}",
+    )
 
 
 @product_controller.get(path="/{id}", status_code=status.HTTP_200_OK)
