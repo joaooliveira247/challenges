@@ -14,6 +14,14 @@ async def test_usecases_create_should_return_sucess(product_in):
     assert result.name == "Iphone 14 Pro Max"
 
 
+@mark.usefixtures("product_inserted")
+async def test_usecases_create_double_raise_exception(product_in, product_id):
+    with raises() as err:
+        await product_usecase.create(body=product_in)
+
+    assert err.value.message == f"Product already exists in id: {product_id}"
+
+
 async def test_usecases_get_should_return_success(product_inserted):
     result = await product_usecase.get(id=product_inserted.id)
 
