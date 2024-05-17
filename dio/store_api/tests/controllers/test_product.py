@@ -28,7 +28,7 @@ async def test_controller_create_product_already_exists(
     response = await client.post(products_url, json=data)
     assert response.status_code == status.HTTP_406_NOT_ACCEPTABLE
     assert response.json() == {
-        "detail": f"Product already exists in id:{product_inserted.id}"
+        "detail": f"Product already exists in id: {product_inserted.id}"
     }
 
 
