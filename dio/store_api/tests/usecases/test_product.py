@@ -2,7 +2,7 @@ from uuid import UUID
 
 from pytest import raises, mark
 
-from store_api.core.exceptions import DBNotFoundValueException
+from store_api.core.exceptions import DBNotFoundValueException, ProductAlreadyExists
 from store_api.schemas import ProductOut, ProductUpdateOut
 from store_api.usecases import product_usecase
 
@@ -14,12 +14,11 @@ async def test_usecases_create_should_return_sucess(product_in):
     assert result.name == "Iphone 14 Pro Max"
 
 
-@mark.usefixtures("product_inserted")
-async def test_usecases_create_double_raise_exception(product_in, product_id):
-    with raises() as err:
+async def test_usecases_create_double_raise_exception(product_in, product_inserted):
+    with raises(ProductAlreadyExists) as err:
         await product_usecase.create(body=product_in)
 
-    assert err.value.message == f"Product already exists in id: {product_id}"
+    assert err.value.message == f"Product already exists in id: {product_inserted.id}"
 
 
 async def test_usecases_get_should_return_success(product_inserted):
