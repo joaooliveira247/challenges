@@ -7,11 +7,29 @@ async def test_controller_create_should_return_sucess(client, products_url):
 
     content: dict = response.json()
     content = {
-        k: v for k, v in content.items() if k not in ["id", "created_at", "updated_at"]
+        k: v
+        for k, v in content.items()
+        if k
+        not in [
+            "id",
+            "created_at",
+            "updated_at",
+        ]
     }
 
     assert response.status_code == status.HTTP_201_CREATED
     assert content == product_data()
+
+
+async def test_controller_create_product_already_exists(
+    client, products_url, product_inserted
+):
+    data = product_data()
+    response = await client.post(products_url, json=data)
+    assert response.status_code == status.HTTP_406_NOT_ACCEPTABLE
+    assert response.json() == {
+        "detail": f"Product already exists in id:{product_inserted.id}"
+    }
 
 
 async def test_controller_get_should_return_sucess(
