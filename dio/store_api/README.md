@@ -69,6 +69,20 @@ make run
 
     - Mapear uma exceção, caso dê algum erro de inserção e capturar na controller
 
+        - Tasks
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/store_api/usecases/product.py#L20
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/store_api/controllers/product.py#L16
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/store_api/core/exceptions.py#L13
+
+        - Tests
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/tests/usecases/test_product.py#L17
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/tests/controllers/test_product.py#L24
+
 - Update
 
     - Modifique o método de patch para retornar uma exceção de Not Found, quando o dado não for encontrado
