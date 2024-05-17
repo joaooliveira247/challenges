@@ -36,13 +36,6 @@ class ProductUseCase:
             )
         return ProductOut(**result)
 
-    async def get_by_name(self, name: str) -> ProductOut | None:
-        result = await self.collection.find_one({"name": name})
-
-        if not result:
-            return None
-        return ProductOut(**result)
-
     async def query(self) -> list[ProductOut]:
         return [ProductOut(**product) async for product in self.collection.find()]
 
