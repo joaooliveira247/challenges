@@ -8,3 +8,7 @@ class BaseException(Exception):
 
 class DBNotFoundValueException(BaseException):
     message = "Not Found"
+
+
+class ProductAlreadyExists(BaseException):
+    ...
