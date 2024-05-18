@@ -92,7 +92,7 @@ async def test_controller_patch_should_raise_406(client, products_url, product_i
     )
 
     assert response.status_code == status.HTTP_406_NOT_ACCEPTABLE
-    assert response.json() == f"Product not found at id: {product_id}"
+    assert response.json() == {"detail": f"Product not found at id: {product_id}"}
 
 
 async def test_controller_delete_should_return_no_content(
