@@ -1,14 +1,15 @@
 from __future__ import annotations
+
+from datetime import datetime
 from uuid import UUID
 
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
+from pymongo import ReturnDocument
 
 from store_api.core.exceptions import DBNotFoundValueException, ProductAlreadyExists
 from store_api.db import db_client
-from store_api.schemas import ProductIn, ProductOut, ProductUpdate, ProductUpdateOut
 from store_api.models import ProductModel
-
-from pymongo import ReturnDocument
+from store_api.schemas import ProductIn, ProductOut, ProductUpdate, ProductUpdateOut
 
 
 class ProductUseCase:
@@ -40,9 +41,13 @@ class ProductUseCase:
         return [ProductOut(**product) async for product in self.collection.find()]
 
     async def update(self, id: UUID, body: ProductUpdate) -> ProductOut:
+        product_up = body.model_dump(exclude_none=True)
+        product_up["updated_at"] = datetime.now().strftime(
+            "%Y-%m-%dT%H:%M:%S.%f",
+        )
         result = await self.collection.find_one_and_update(
             {"id": id},
-            update={"$set": body.model_dump(exclude_none=True)},
+            update={"$set": product_up},
             return_document=ReturnDocument.AFTER,
         )
         if not result:
