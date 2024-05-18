@@ -1,5 +1,6 @@
 from tests.factories import product_data
 from fastapi import status
+from pytest import mark
 
 
 async def test_controller_create_should_return_sucess(client, products_url):
@@ -82,6 +83,16 @@ async def test_controller_patch_should_return_sucess(
 
     assert response.status_code == status.HTTP_202_ACCEPTED
     assert product_in == product
+
+
+@mark.usefixtures("product_inserted")
+async def test_controller_patch_should_raise_406(client, products_url, product_id):
+    response = await client.patch(
+        f"{products_url}{product_id}", json={"price": "40.00"}
+    )
+
+    assert response.status_code == status.HTTP_406_NOT_ACCEPTABLE
+    assert response.json() == f"Product not found at id: {product_id}"
 
 
 async def test_controller_delete_should_return_no_content(
