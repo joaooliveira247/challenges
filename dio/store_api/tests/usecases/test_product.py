@@ -62,7 +62,7 @@ async def test_usecases_update_should_raise_not_found_exception(
     with raises(DBNotFoundValueException) as err:
         await product_usecase.update(product_id, product_up)
 
-    assert err.value.message == f"Product not found at id {product_id}"
+    assert err.value.message == f"Product not found at id: {product_id}"
 
 
 async def test_usecases_delete_return_success(product_inserted):
