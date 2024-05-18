@@ -85,9 +85,19 @@ make run
 
 - Update
 
-    - Modifique o método de patch para retornar uma exceção de Not Found, quando o dado não for encontrado
+    - Modifique o método de patch para retornar uma exceção de Not Found, quando o dado não for encontrado a exceção deve ser tratada na controller, pra ser retornada uma mensagem amigável pro usuário
 
-    - a exceção deve ser tratada na controller, pra ser retornada uma mensagem amigável pro usuário
+        - Tasks
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/store_api/usecases/product.py#L42
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/store_api/controllers/product.py#L56
+
+        - Tests
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/tests/usecases/test_product.py#L58
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/tests/controllers/test_product.py#L89
 
     - ao alterar um dado, a data de updated_at deve corresponder ao time atual, permitir modificar updated_at também
 
