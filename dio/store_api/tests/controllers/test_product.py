@@ -95,6 +95,18 @@ async def test_controller_patch_should_raise_406(client, products_url, product_i
     assert response.json() == {"detail": f"Product not found at id: {product_id}"}
 
 
+async def test_controller_patch_should_return_success_update_date(
+    client, products_url, product_inserted
+):
+    response = await client.patch(
+        f"{products_url}{product_inserted.id}", json={"quantity": 20}
+    )
+
+    assert response.json()["updated_at"] != product_inserted.updated_at.strftime(
+        "YYYY-MM-DDTHH:MM:SS.ssssss"
+    )
+
+
 async def test_controller_delete_should_return_no_content(
     client, products_url, product_inserted
 ):
