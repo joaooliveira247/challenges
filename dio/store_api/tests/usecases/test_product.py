@@ -55,6 +55,16 @@ async def test_usecases_update_should_return_success(product_inserted, product_u
     assert isinstance(result, ProductUpdateOut)
 
 
+async def test_usecases_update_should_raise_not_found_exception(
+    product_id,
+    product_up,
+):
+    with raises(DBNotFoundValueException) as err:
+        await product_usecase.update(product_id, product_up)
+
+    assert err.value.message == f"Product not found at id {product_id}"
+
+
 async def test_usecases_delete_return_success(product_inserted):
     result = await product_usecase.delete(id=product_inserted.id)
 
