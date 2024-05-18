@@ -45,6 +45,8 @@ class ProductUseCase:
             update={"$set": body.model_dump(exclude_none=True)},
             return_document=ReturnDocument.AFTER,
         )
+        if not result:
+            raise DBNotFoundValueException(f"Product not found at id: {id}")
         return ProductUpdateOut(**result)
 
     async def delete(self, id: UUID) -> bool:
