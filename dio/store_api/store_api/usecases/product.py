@@ -40,6 +40,11 @@ class ProductUseCase:
     async def query(self) -> list[ProductOut]:
         return [ProductOut(**product) async for product in self.collection.find()]
 
+    async def query_filter(self, _filter: dict) -> list[ProductOut]:
+        return [
+            ProductOut(**product) async for product in self.collection.find(_filter)
+        ]
+
     async def update(self, id: UUID, body: ProductUpdate) -> ProductOut:
         product_up = body.model_dump(exclude_none=True)
         product_up["updated_at"] = datetime.now().strftime(
