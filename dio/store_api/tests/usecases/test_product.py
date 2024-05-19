@@ -5,6 +5,8 @@ from pytest import raises, mark
 from store_api.core.exceptions import DBNotFoundValueException, ProductAlreadyExists
 from store_api.schemas import ProductOut, ProductUpdateOut
 from store_api.usecases import product_usecase
+from bson import Decimal128
+from decimal import Decimal
 
 
 async def test_usecases_create_should_return_sucess(product_in):
@@ -50,7 +52,8 @@ async def test_usecases_query_should_return_success():
 
 @mark.usefixtures("products_inserted")
 async def test_usecases_query_filter_should_return_sucess():
-    result = await product_usecase.query_filter({"price": {"$gt": "6500.00"}})
+    _filter = {"price": {"$gt": Decimal128(Decimal("6500.00"))}}
+    result = await product_usecase.query_filter(_filter)
 
     assert isinstance(result, list)
     assert len(result) == 1
