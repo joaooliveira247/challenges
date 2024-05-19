@@ -101,6 +101,14 @@ make run
 
     - ao alterar um dado, a data de updated_at deve corresponder ao time atual, permitir modificar updated_at também
 
+        - Tasks
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/store_api/usecases/product.py#L43
+
+        - Tests
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/tests/controllers/test_product.py#L98
+
 - Filtros
     - cadastre produtos com preços diferentes
     - aplique um filtro de preço, assim: (price > 5000 and price < 8000)
