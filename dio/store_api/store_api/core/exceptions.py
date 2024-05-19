@@ -12,3 +12,7 @@ class DBNotFoundValueException(BaseException):
 
 class ProductAlreadyExists(BaseException):
     ...
+
+
+class FilterFailureException(BaseException):
+    ...
