@@ -111,6 +111,20 @@ make run
 
 - Filtros
     - cadastre produtos com preços diferentes
+
+        - Tasks
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/store_api/usecases/product.py#L36
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/store_api/controllers/product.py#L30
+
+
+        - Tests
+
+            - https://github.com/joaooliveira247/challenges/blob/main/dio/store_api/tests/controllers/test_product.py#L25
+
+
+
     - aplique um filtro de preço, assim: (price > 5000 and price < 8000)
 
         - Tasks
