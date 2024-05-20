@@ -85,7 +85,7 @@ async def test_controller_get_all_filter_gt_should_return_sucess(
     response = await client.get(f"{products_url}?gt=6500")
 
     assert response.status_code == status.HTTP_200_OK
-    assert len(response.json()) == 2
+    assert len(response.json()) == 1
 
 
 @mark.usefixtures("products_inserted")
