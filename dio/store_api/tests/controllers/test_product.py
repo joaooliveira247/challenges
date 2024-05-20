@@ -107,8 +107,6 @@ async def test_controller_get_all_filter_gt_and_lt_should_raise_httperror(
     response = await client.get(f"{products_url}?gt=10500&lt=5500")
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    # put a breakpoint here and see the output message.
-    # assert response.json() == {"detail": "10500"}
 
 
 async def test_controller_patch_should_return_sucess(
