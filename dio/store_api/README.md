@@ -1,4 +1,4 @@
-# Workout API 🏋️
+# Store API 🏪
 
 ![GitHub Pipenv locked Python version](https://img.shields.io/badge/Python-3.10%20%7C%203.11-blue)
 
