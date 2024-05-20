@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, Body, Depends, HTTPException, Path
+from fastapi import APIRouter, status, Body, Depends, HTTPException, Path, Query
 from store_api.schemas.products import (
     ProductIn,
     ProductOut,
@@ -6,8 +6,9 @@ from store_api.schemas.products import (
     ProductUpdate,
 )
 from store_api.usecases.product import ProductUseCase
-from pydantic import UUID4
+from pydantic import UUID4, PositiveFloat
 from store_api.core.exceptions import DBNotFoundValueException, ProductAlreadyExists
+from store_api.core.utils import to_decimal
 
 product_controller = APIRouter(tags=["products"])
 
@@ -43,8 +44,23 @@ async def get(
     path="/", status_code=status.HTTP_200_OK, response_model=list[ProductOut]
 )
 async def query(
+    lt: PositiveFloat | None = Query(None),
+    gt: PositiveFloat | None = Query(None),
     usecase: ProductUseCase = Depends(),
 ) -> list[ProductOut]:
+    if gt and lt:
+        if gt > lt:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail=f"{lt} > {gt}"
+            )
+        return await usecase.query_filter(
+            {"price": {"$gt": to_decimal(gt), "$lt": to_decimal(lt)}}
+        )
+    if lt:
+        return await usecase.query_filter({"price": {"$lt": to_decimal(lt)}})
+    if gt:
+        return await usecase.query_filter({"price": {"$gt": to_decimal(gt)}})
+
     return await usecase.query()
 
 
