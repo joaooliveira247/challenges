@@ -5,8 +5,13 @@ from uuid import UUID
 
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from pymongo import ReturnDocument
+from pymongo.errors import OperationFailure
 
-from store_api.core.exceptions import DBNotFoundValueException, ProductAlreadyExists
+from store_api.core.exceptions import (
+    DBNotFoundValueException,
+    ProductAlreadyExists,
+    FilterFailureException,
+)
 from store_api.db import db_client
 from store_api.models import ProductModel
 from store_api.schemas import ProductIn, ProductOut, ProductUpdate, ProductUpdateOut
@@ -41,9 +46,12 @@ class ProductUseCase:
         return [ProductOut(**product) async for product in self.collection.find()]
 
     async def query_filter(self, _filter: dict) -> list[ProductOut]:
-        return [
-            ProductOut(**product) async for product in self.collection.find(_filter)
-        ]
+        try:
+            return [
+                ProductOut(**product) async for product in self.collection.find(_filter)
+            ]
+        except OperationFailure:
+            raise FilterFailureException(f"{_filter} not found any pattern.")
 
     async def update(self, id: UUID, body: ProductUpdate) -> ProductOut:
         product_up = body.model_dump(exclude_none=True)
