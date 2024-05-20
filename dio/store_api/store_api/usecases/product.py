@@ -33,6 +33,11 @@ class ProductUseCase:
         await self.collection.insert_one(product.model_dump())
         return ProductOut(**product.model_dump())
 
+    async def create_many(self, body: list[ProductIn]) -> list[ProductOut]:
+        products = [ProductModel(**prod.model_dump()) for prod in body]
+        await self.collection.insert_many([prod.model_dump() for prod in products])
+        return [ProductOut(**prod.model_dump()) for prod in products]
+
     async def get(self, id: UUID) -> ProductOut:
         result = await self.collection.find_one({"id": id})
 
