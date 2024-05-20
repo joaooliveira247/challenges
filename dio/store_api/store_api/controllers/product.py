@@ -27,6 +27,18 @@ async def post(
         )
 
 
+@product_controller.post(
+    path="/many",
+    status_code=status.HTTP_201_CREATED,
+    response_model=list[ProductOut],
+)
+async def create_many(
+    body: list[ProductIn] = Body(...),
+    usecase: ProductUseCase = Depends(),
+) -> list[ProductOut]:
+    return await usecase.create_many(body)
+
+
 @product_controller.get(path="/{id}", status_code=status.HTTP_200_OK)
 async def get(
     id: UUID4 = Path(...),
