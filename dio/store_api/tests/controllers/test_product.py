@@ -1,4 +1,4 @@
-from tests.factories import product_data
+from tests.factories import product_data, products_data
 from fastapi import status
 from pytest import mark
 
@@ -20,6 +20,13 @@ async def test_controller_create_should_return_sucess(client, products_url):
 
     assert response.status_code == status.HTTP_201_CREATED
     assert content == product_data()
+
+
+async def test_controller_create_many_should_return_sucess(client, products_url):
+    response = await client.post(f"{products_url}many", json=products_data())
+
+    assert response.status_code == status.HTTP_201_CREATED
+    assert len(response.json()) > 1
 
 
 async def test_controller_create_product_already_exists(
