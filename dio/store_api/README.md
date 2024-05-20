@@ -60,7 +60,13 @@ make run
 
 ### [Pydantic & Pydantic-settings](https://docs.pydantic.dev/latest/)
 
-### [Motor]()
+### [Motor](https://motor.readthedocs.io/en/stable/)
+
+### [Pytest](https://docs.pytest.org/en/8.2.x/)
+
+### [Pymongo](https://pymongo.readthedocs.io/en/stable/)
+
+### [Pre-commit](https://pre-commit.com/)
 
 
 ## Challenges 🏆
