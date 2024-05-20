@@ -2,7 +2,11 @@ from uuid import UUID
 
 from pytest import raises, mark
 
-from store_api.core.exceptions import DBNotFoundValueException, ProductAlreadyExists
+from store_api.core.exceptions import (
+    DBNotFoundValueException,
+    ProductAlreadyExists,
+    FilterFailureException,
+)
 from store_api.schemas import ProductOut, ProductUpdateOut
 from store_api.usecases import product_usecase
 from bson import Decimal128
@@ -61,12 +65,11 @@ async def test_usecases_query_filter_should_return_sucess():
 
 @mark.usefixtures("products_inserted")
 async def test_usecases_query_filter_should_raises_exception():
-    with raises():
-        await product_usecase.query_filter({"price": {"$gw": "6500.00"}})
+    _filter = {"price": {"$gw": "6500.00"}}
+    with raises(FilterFailureException) as err:
+        await product_usecase.query_filter(_filter)
 
-    # put breakpoint and put exception here
-    # assert err.value.message ==
-    ...
+    assert err.value.message == f"{_filter} not found any pattern."
 
 
 async def test_usecases_update_should_return_success(product_inserted, product_up):
