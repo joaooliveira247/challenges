@@ -30,27 +30,39 @@ This project use a packaging and dependency management called [poetry](https://p
 
 - 🐋 Start docker with database.
 
-```bash
-make run-docker
-```
+    ```bash
+    make run-docker
+    ```
 
 - 📋 Create a migration and put it on staging area.
 
-```bash
-make create-migrations name
-```
+    ```bash
+    make create-migrations name
+    ```
 
 - 📋 Run migrate on models and databases.
 
-```bash
-make run-migrations
-```
+    ```bash
+    make run-migrations
+    ```
 
-- 🏋️ Run API
+- 🏋️ Run API.
 
-```bash
-make run
-```
+    ```bash
+    make run
+    ```
+
+- ✅ Run all tests.
+
+    ```bash
+    make test
+    ```
+
+- 🧪 Run specific test.
+
+    ```
+    make test-matching K="test_name"
+    ```
 
 ## Usage libraries 🐍:
 
