@@ -1,10 +1,10 @@
 # 🏆 Challenges
 
-This repository is to solve some challenges from [Exercism](https://exercism.org/) or another font.
+This repository is to solve some challenges.
 
-You can choose any language to solve the challenges.
+# [Exercism](https://exercism.org/)
 
-# 🍯 Easy
+## 🍯 Easy
 
 1. [Hello World](./exercism/hello/)
 
@@ -12,6 +12,12 @@ You can choose any language to solve the challenges.
 
 3. [Difference of Squares](./exercism/diff_squares/)
 
-# 🤓 Medium
+## 🤓 Medium
 
-# 🧠 Hard
+## 🧠 Hard
+
+# [Dio](https://www.dio.me/)
+
+- [Workout API 🏋️](./dio/workout_api/README.md)
+
+- [Store API 🏪](./dio/store_api/README.md)
