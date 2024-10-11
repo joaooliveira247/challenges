@@ -2,7 +2,7 @@
 
 Essa Arquitetura eu uso em um projeto pessoal (backend em Go, database postgres)
 
-Optei por não deixar o backend todo no escopo do projeto, pois fugiria do contexto por seu um projeto relativamente grande.
+Optei por não deixar o backend todo no escopo do projeto, pois fugiria do contexto por ser um projeto relativamente grande.
 
 ## Compose
 
