@@ -11,25 +11,24 @@ for _ in range(n):
     pacientes.append((nome, idade, status))
 
 
-# TODO: Ordene por prioridade: urgente > idosos > demais:
-def line_order(line: list[tuple[str | int]]) -> list[str]:
-    priority_line = []
-    normal_line = []
-    for people in line:
-        if people[2] == "urgente":
-            if people[1] >= 60:
-                priority_line.insert(0, people[0])
-                continue
-            priority_line.append(people[0])
-            continue
-        if people[1] >= 60:
-            normal_line.insert(0, people[0])
-            continue
-        normal_line.append(people[0])
+def line_order(line: list[tuple[str, int, str]]) -> list[str]:
+    urgentes = []
+    idosos = []
+    demais = []
 
-    priority_line.extend(normal_line)
+    for nome, idade, status in line:
+        if status == "urgente":
+            urgentes.append((nome, idade))
+        elif idade >= 60:
+            idosos.append(nome)
+        else:
+            demais.append(nome)
 
-    return priority_line
+    # Ordena urgentes por idade (decrescente)
+    urgentes.sort(key=lambda x: x[1], reverse=True)
+    urgentes_nomes = [nome for nome, _ in urgentes]
+
+    return urgentes_nomes + idosos + demais
 
 
 # TODO: Exiba a ordem de atendimento com título e vírgulas:
