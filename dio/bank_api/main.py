@@ -1,6 +1,8 @@
-def main():
-    print("Hello from bank-api!")
+from fastapi import FastAPI
+
+app = FastAPI()
 
 
-if __name__ == "__main__":
-    main()
+@app.get("/")
+async def hello_fast_api():
+    return {"message": "Hello World!"}
