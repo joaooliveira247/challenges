@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    container_name: bank_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    command: sh -c "uv run fastapi $APP_MODE --host $APP_HOST --port $APP_PORT"
