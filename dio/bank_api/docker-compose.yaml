@@ -8,6 +8,8 @@ services:
       - .:/app
     env_file:
       - .env
+    environment:
+      - PYTHONPATH=/app
     command: sh -c "uv run fastapi $APP_MODE --host $APP_HOST --port $APP_PORT"
     networks:
       - bank_network
@@ -24,3 +26,6 @@ services:
       - bank_network
     ports:
       - 5432:5432
+
+networks:
+  bank_network:
