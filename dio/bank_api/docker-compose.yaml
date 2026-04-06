@@ -9,3 +9,18 @@ services:
     env_file:
       - .env
     command: sh -c "uv run fastapi $APP_MODE --host $APP_HOST --port $APP_PORT"
+    networks:
+      - bank_network
+  bank_database:
+    image: postgres:16.13-alpine3.23
+    restart: "no"
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWD
+      POSTGRES_DB: $DB_NAME
+    networks:
+      - bank_network
+    ports:
+      - 5432:5432
