@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import (
 )
 from typing_extensions import AsyncGenerator
 
-from src.core.config import get_settings
+from bank_api.core.config import get_settings
 
 settings = get_settings()
 
