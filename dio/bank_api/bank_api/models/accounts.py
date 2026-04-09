@@ -1,7 +1,16 @@
+import enum
+
 from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.sql.sqltypes import Enum
 from sqlalchemy.types import BIGINT, CHAR, VARCHAR
 
 from bank_api.contrib.models import BaseModel
+
+
+class AccountStatusEnum(enum.StrEnum):
+    ACTIVATED = "activated"
+    DEACTIVATED = "deactivated"
+    BLOCKED = "blocked"
 
 
 class AccountModel(BaseModel):
