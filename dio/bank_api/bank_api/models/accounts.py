@@ -13,6 +13,11 @@ class AccountStatusEnum(enum.StrEnum):
     BLOCKED = "blocked"
 
 
+class AccountRoleEnum(enum.StrEnum):
+    COSTUMER = "COSTUMER"
+    ADMIN = "ADMIN"
+
+
 class AccountModel(BaseModel):
     __tablename__: str = "accounts"
 
