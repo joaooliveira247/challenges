@@ -5,6 +5,7 @@ from sqlalchemy import engine_from_config, pool
 
 from bank_api.contrib.models import BaseModel
 from bank_api.core.config import get_settings
+from bank_api.models import accounts
 
 app_settings = get_settings()
 
