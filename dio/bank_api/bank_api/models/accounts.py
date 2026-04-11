@@ -14,7 +14,7 @@ class AccountStatusEnum(enum.StrEnum):
 
 
 class AccountModel(BaseModel):
-    __table_name__: str = "accounts"
+    __tablename__: str = "accounts"
 
     full_name: Mapped[str] = mapped_column(VARCHAR(255), nullable=False)
     email: Mapped[str] = mapped_column(
