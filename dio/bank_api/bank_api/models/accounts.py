@@ -32,3 +32,4 @@ class AccountModel(BaseModel):
         default=AccountStatusEnum.ACTIVATED,
         nullable=False,
     )
+    password: Mapped[str] = mapped_column(VARCHAR(60), nullable=False)
