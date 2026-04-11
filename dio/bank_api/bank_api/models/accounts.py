@@ -33,3 +33,8 @@ class AccountModel(BaseModel):
         nullable=False,
     )
     password: Mapped[str] = mapped_column(VARCHAR(60), nullable=False)
+    role: Mapped[Enum] = mapped_column(
+        Enum(AccountRoleEnum, name="role_enum", native_enum=True),
+        default=AccountRoleEnum.COSTUMER,
+        nullable=False,
+    )
