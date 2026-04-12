@@ -27,13 +27,13 @@ class AccountModel(BaseModel):
     )
     ssn: Mapped[CHAR] = mapped_column(CHAR(11), unique=True, nullable=False)
     balance: Mapped[BIGINT] = mapped_column(BIGINT, default=0)
-    status: Mapped[Enum] = mapped_column(
+    status: Mapped[AccountStatusEnum] = mapped_column(
         Enum(AccountStatusEnum, name="status_enum", native_enum=True),
         default=AccountStatusEnum.ACTIVATED,
         nullable=False,
     )
     password: Mapped[str] = mapped_column(VARCHAR(60), nullable=False)
-    role: Mapped[Enum] = mapped_column(
+    role: Mapped[AccountRoleEnum] = mapped_column(
         Enum(AccountRoleEnum, name="role_enum", native_enum=True),
         default=AccountRoleEnum.CUSTOMER,
         nullable=False,
