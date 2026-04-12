@@ -1,5 +1,6 @@
 from uuid import UUID
 
+from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -26,3 +27,29 @@ class AccountsRepository(BaseRepository):
             raise UnexpectedError(
                 str(e), location="database", resource=self.__class__.__name__
             )
+
+    async def get_account_by_query(
+        self, email: str | None, ssn: str | None
+    ) -> AccountModel | None:
+        async with self.db as session:
+            statment = select(AccountModel)
+
+            if email:
+                statment = statment.filter(AccountModel.email == email)
+            if ssn:
+                statment = statment.filter(AccountModel.ssn == ssn)
+
+            try:
+                result = await session.execute(statment)
+                account = result.scalars().one_or_none()
+                return account
+            except OperationalError as e:
+                await self.db.rollback()
+                raise DatabaseError(str(e), self.__class__.__name__)
+            except Exception as e:
+                await self.db.rollback()
+                raise UnexpectedError(
+                    str(e),
+                    location="database",
+                    resource=self.__class__.__name__,
+                )
