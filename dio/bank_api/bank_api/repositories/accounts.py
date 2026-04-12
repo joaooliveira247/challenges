@@ -75,3 +75,28 @@ class AccountsRepository(BaseRepository):
                     location="database",
                     resource=self.__class__.__name__,
                 )
+
+    async def update_account(self, account_id: UUID, fields: dict) -> None:
+        async with self.db as session:
+            try:
+                result = await session.execute(
+                    select(AccountModel).filter(AccountModel.id == account_id)
+                )
+
+                if update_account := result.scalars().one_or_none():
+                    for k, v in fields:
+                        setattr(update_account, k, v)
+
+                    await session.flush()
+                    await session.commit()
+                    return
+            except (OperationalError, IntegrityError) as e:
+                await self.db.rollback()
+                raise DatabaseError(str(e), resource=self.__class__.__name__)
+            except Exception as e:
+                await self.db.rollback()
+                raise UnexpectedError(
+                    str(e),
+                    location="database",
+                    resource=self.__class__.__name__,
+                )
