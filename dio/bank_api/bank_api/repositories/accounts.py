@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bank_api.contrib.errors import DatabaseError, UnexpectedError
 from bank_api.contrib.repositories import BaseRepository
-from bank_api.models.accounts import AccountModel
+from bank_api.models.accounts import AccountModel, AccountStatusEnum
 
 
 class AccountsRepository(BaseRepository):
@@ -86,6 +86,30 @@ class AccountsRepository(BaseRepository):
                 if update_account := result.scalars().one_or_none():
                     for k, v in fields:
                         setattr(update_account, k, v)
+
+                    await session.flush()
+                    await session.commit()
+                    return
+            except (OperationalError, IntegrityError) as e:
+                await self.db.rollback()
+                raise DatabaseError(str(e), resource=self.__class__.__name__)
+            except Exception as e:
+                await self.db.rollback()
+                raise UnexpectedError(
+                    str(e),
+                    location="database",
+                    resource=self.__class__.__name__,
+                )
+
+    async def delete_account(self, account_id: UUID) -> None:
+        async with self.db as session:
+            try:
+                result = await session.execute(
+                    select(AccountModel).filter(AccountModel.id == account_id)
+                )
+
+                if delete_account := result.scalars().one_or_none():
+                    delete_account.status = AccountStatusEnum.DEACTIVATED
 
                     await session.flush()
                     await session.commit()
