@@ -30,6 +30,26 @@ class AccountsRepository(BaseRepository):
         finally:
             await self.db.close()
 
+    async def get_account_by_id(self, id: UUID) -> AccountModel | None:
+        async with self.db as session:
+            try:
+                result = await session.execute(
+                    select(AccountModel).filter(AccountModel.id == id)
+                )
+
+                account = result.scalars().one_or_none()
+                return account
+            except OperationalError as e:
+                await self.db.rollback()
+                raise DatabaseError(str(e), self.__class__.__name__)
+            except Exception as e:
+                await self.db.rollback()
+                raise UnexpectedError(
+                    str(e),
+                    location="database",
+                    resource=self.__class__.__name__,
+                )
+
     async def get_account_by_query(
         self, email: str | None, ssn: str | None
     ) -> AccountModel | None:
