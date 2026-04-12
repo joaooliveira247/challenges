@@ -14,8 +14,8 @@ class AccountStatusEnum(enum.StrEnum):
 
 
 class AccountRoleEnum(enum.StrEnum):
-    COSTUMER = "COSTUMER"
-    ADMIN = "ADMIN"
+    CUSTOMER = "customer"
+    ADMIN = "admin"
 
 
 class AccountModel(BaseModel):
@@ -35,6 +35,6 @@ class AccountModel(BaseModel):
     password: Mapped[str] = mapped_column(VARCHAR(60), nullable=False)
     role: Mapped[Enum] = mapped_column(
         Enum(AccountRoleEnum, name="role_enum", native_enum=True),
-        default=AccountRoleEnum.COSTUMER,
+        default=AccountRoleEnum.CUSTOMER,
         nullable=False,
     )
