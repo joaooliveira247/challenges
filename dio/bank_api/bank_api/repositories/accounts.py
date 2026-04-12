@@ -27,6 +27,8 @@ class AccountsRepository(BaseRepository):
             raise UnexpectedError(
                 str(e), location="database", resource=self.__class__.__name__
             )
+        finally:
+            await self.db.close()
 
     async def get_account_by_query(
         self, email: str | None, ssn: str | None
