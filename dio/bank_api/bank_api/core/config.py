@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    APP_NAME: str = ""
+    APP_NAME: str = Field(alias="APP_NAME", default="MyAPP")
     API_HOST: str = Field(alias="APP_HOST", default="localhost")
     API_PORT: int = Field(alias="APP_PORT", default=8000)
     API_PATH: str = Field(alias="APP_PATH", default="/api/")
