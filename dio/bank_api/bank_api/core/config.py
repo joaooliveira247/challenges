@@ -27,6 +27,5 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
-    a = Settings()
-    print(a.postgres_dsn)
-    return a
+    settings_instance = Settings()
+    return settings_instance
