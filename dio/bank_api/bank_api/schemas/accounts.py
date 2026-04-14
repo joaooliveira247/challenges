@@ -37,3 +37,9 @@ class AccountBaseSchema(BaseModel):
             raise ValueError("Invalid CPF")
 
         return cpf
+
+
+class PasswordMixin(BaseModel):
+    password: str = Field(
+        ..., description="Account password", min_length=8, max_length=128
+    )
