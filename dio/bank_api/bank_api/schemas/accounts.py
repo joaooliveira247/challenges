@@ -68,3 +68,6 @@ class PasswordMixin(BaseModel):
             )
 
         return value
+
+
+class AccountInSchema(AccountBaseSchema, PasswordMixin): ...
