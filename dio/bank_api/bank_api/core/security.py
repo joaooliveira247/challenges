@@ -13,7 +13,7 @@ oauth2_schema: OAuth2PasswordBearer = OAuth2PasswordBearer(
 )
 
 
-def gen_hash(passwd: str) -> str | None:
+def gen_hash(passwd: str) -> str:
     if not isinstance(passwd, str):
         raise ValueError("password must be a string")
         return
