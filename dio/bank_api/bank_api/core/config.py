@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     API_HOST: str = Field(alias="APP_HOST", default="localhost")
     API_PORT: int = Field(alias="APP_PORT", default=8000)
     API_PATH: str = Field(alias="APP_PATH", default="/api/")
+    API_MODE: str = Field(alias="APP_MODE", default="dev")
 
     DB_USER: str | None = None
     DB_PASSWD: str | None = None
