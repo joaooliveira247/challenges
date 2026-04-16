@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 
 from bank_api.core.config import get_settings
+from bank_api.urls import api_router
 
 settings = get_settings()
 
-app = FastAPI()
+app = FastAPI(title=settings.API_NAME)
+app.include_router(api_router)
 
 
 @app.get("/")
