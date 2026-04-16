@@ -25,6 +25,20 @@ class Settings(BaseSettings):
     def postgres_dsn(self) -> str:
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
+    @property
+    def fastapi_mode_config(self) -> dict:
+        if self.API_MODE == "dev":
+            return {
+                "docs_url": "/docs",
+                "redoc_url": "/redoc",
+                "openapi_url": "/openapi.json",
+            }
+        return {
+            "docs_url": None,
+            "redoc_url": None,
+            "openapi_url": None,
+        }
+
 
 @lru_cache
 def get_settings() -> Settings:
