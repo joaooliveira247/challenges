@@ -5,7 +5,7 @@ from bank_api.urls import api_router
 
 settings = get_settings()
 
-app = FastAPI(title=settings.API_NAME)
+app = FastAPI(title=settings.API_NAME, **settings.fastapi_mode_config)
 app.include_router(api_router)
 
 
