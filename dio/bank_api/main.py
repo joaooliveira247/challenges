@@ -1,5 +1,9 @@
 from fastapi import FastAPI
 
+from bank_api.core.config import get_settings
+
+settings = get_settings()
+
 app = FastAPI()
 
 
