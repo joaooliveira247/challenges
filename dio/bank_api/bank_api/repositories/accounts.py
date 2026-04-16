@@ -13,7 +13,7 @@ class AccountsRepository(BaseRepository):
     def __init__(self, db: AsyncSession) -> None:
         super().__init__(db)
 
-    async def create(self, account: AccountModel) -> UUID | None:
+    async def create(self, account: AccountModel) -> UUID:
         try:
             self.db.add(account)
             await self.db.flush()
