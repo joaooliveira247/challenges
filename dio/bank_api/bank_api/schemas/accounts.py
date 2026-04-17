@@ -16,6 +16,7 @@ class AccountBaseSchema(BaseModel):
         description="Brazilian CPF identification",
         max_length=11,
         min_length=11,
+        examples=["1234567810"]
     )
 
     @field_validator("ssn")
