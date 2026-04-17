@@ -41,7 +41,11 @@ class AccountBaseSchema(BaseModel):
 
 class PasswordMixin(BaseModel):
     password: str = Field(
-        ..., description="Account password", min_length=8, max_length=128
+        ...,
+        description="Account password",
+        min_length=8,
+        max_length=128,
+        examples=["Hello@124"],
     )
 
     @field_validator("password")
