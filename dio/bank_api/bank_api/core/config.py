@@ -13,6 +13,7 @@ class Settings(BaseSettings):
 
     DB_USER: str | None = None
     DB_PASSWD: str | None = None
+    DB_CONTAINER_HOST: str | None = None
     DB_HOST: str | None = None
     DB_PORT: str | None = None
     DB_NAME: str | None = None
