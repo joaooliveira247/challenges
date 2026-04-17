@@ -24,7 +24,7 @@ class Settings(BaseSettings):
 
     @property
     def postgres_dsn(self) -> str:
-        return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWD}@{self.DB_CONTAINER_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
     @property
     def postgres_local_dsn(self) -> str:
