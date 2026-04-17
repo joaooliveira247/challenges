@@ -27,6 +27,10 @@ class Settings(BaseSettings):
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
     @property
+    def postgres_local_dsn(self) -> str:
+        return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+
+    @property
     def fastapi_mode_config(self) -> dict:
         if self.API_MODE == "dev":
             return {
