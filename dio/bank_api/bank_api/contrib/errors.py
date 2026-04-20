@@ -22,3 +22,8 @@ class PasswordHashError(BaseError):
 class TokenError(BaseError):
     def __init__(self, message: str, resource: str) -> None:
         super().__init__(f"[TokenError] ({resource}): {message}")
+
+
+class InvalidResource(BaseError):
+    def __init__(self, message: str) -> None:
+        super().__init__(f"[Auth]: {message}")
