@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     DB_PORT: str | None = None
     DB_NAME: str | None = None
 
-    JWT_SECRET_KEY: str
+    JWT_SECRET_KEY: str | None = None
     JWT_ALGORITHM: str = "HS256"
     JWT_DEFAULT_LIFE_TIME: float = 360
 
