@@ -8,3 +8,8 @@ class CreatedSchameMixin(BaseModel):
 
 
 class AccountCreatedSchema(CreatedSchameMixin): ...
+
+
+class AccountTokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
