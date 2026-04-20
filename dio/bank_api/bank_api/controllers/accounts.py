@@ -1,14 +1,26 @@
-from fastapi import Body, status
+from tokenize import TokenError
+
+from fastapi import Body, Depends, status
 from fastapi.exceptions import HTTPException
 from fastapi.routing import APIRouter
+from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 
-from bank_api.contrib.errors import DatabaseError, UnexpectedError
+from bank_api.contrib.errors import (
+    DatabaseError,
+    InvalidResource,
+    UnexpectedError,
+)
+from bank_api.core.auth import authenticate
 from bank_api.core.security import gen_hash
+from bank_api.core.token import gen_jwt
 from bank_api.dependencies.database import DatabaseDependency
 from bank_api.models.accounts import AccountModel
 from bank_api.repositories.accounts import AccountsRepository
 from bank_api.schemas.accounts import AccountInSchema
-from bank_api.schemas.response import AccountCreatedSchema
+from bank_api.schemas.response import (
+    AccountCreatedSchema,
+    AccountTokenResponse,
+)
 
 accounts_controller = APIRouter(tags=["account"])
 
@@ -34,6 +46,32 @@ async def create_account(
     except DatabaseError as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+    except UnexpectedError as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+
+
+@accounts_controller.post("/sign-up", status_code=status.HTTP_200_OK)
+async def login(
+    db: DatabaseDependency, form_data: OAuth2PasswordRequestForm = Depends()
+) -> AccountTokenResponse:
+    try:
+        account = await authenticate(
+            db, form_data.username, form_data.password
+        )
+
+        jwt = gen_jwt(account)
+
+        return AccountTokenResponse(access_token=jwt)
+    except (DatabaseError, TokenError) as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+    except InvalidResource as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)
         )
     except UnexpectedError as e:
         raise HTTPException(
