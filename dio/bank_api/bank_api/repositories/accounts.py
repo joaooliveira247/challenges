@@ -51,7 +51,7 @@ class AccountsRepository(BaseRepository):
                 )
 
     async def get_account_by_query(
-        self, email: str | None, ssn: str | None
+        self, email: str | None = None, ssn: str | None = None
     ) -> AccountModel | None:
         async with self.db as session:
             statment = select(AccountModel)
