@@ -18,6 +18,10 @@ class Settings(BaseSettings):
     DB_PORT: str | None = None
     DB_NAME: str | None = None
 
+    JWT_SECRET_KEY: str
+    JWT_ALGORITHM: str = "HS256"
+    JWT_DEFAULT_LIFE_TIME: float = 360
+
     model_config = SettingsConfigDict(
         env_file=".env", env_file_encoding="utf-8", extra="ignore"
     )
