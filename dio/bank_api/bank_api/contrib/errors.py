@@ -17,3 +17,8 @@ class DatabaseError(BaseError):
 class PasswordHashError(BaseError):
     def __init__(self, message: str, resource: str) -> None:
         super().__init__(f"[PasswordHash] ({resource}): {message}")
+
+
+class TokenError(BaseError):
+    def __init__(self, message: str, resource: str) -> None:
+        super().__init__(f"[TokenError] ({resource}): {message}")
