@@ -13,10 +13,11 @@ from bank_api.contrib.errors import (
 from bank_api.core.auth import authenticate
 from bank_api.core.security import gen_hash
 from bank_api.core.token import gen_jwt
+from bank_api.dependencies.auth import CurrentAccount
 from bank_api.dependencies.database import DatabaseDependency
 from bank_api.models.accounts import AccountModel
 from bank_api.repositories.accounts import AccountsRepository
-from bank_api.schemas.accounts import AccountInSchema
+from bank_api.schemas.accounts import AccountInSchema, AccountOutSchema
 from bank_api.schemas.response import (
     AccountCreatedSchema,
     AccountTokenResponse,
@@ -77,3 +78,8 @@ async def login(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
         )
+
+
+@accounts_controller.get("/", status_code=status.HTTP_200_OK)
+async def get_current_account(account: CurrentAccount) -> AccountOutSchema:
+    return account
