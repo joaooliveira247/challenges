@@ -1,3 +1,4 @@
+from decimal import Decimal
 import re
 
 from pydantic import BaseModel, EmailStr, Field, field_validator
@@ -76,3 +77,6 @@ class PasswordMixin(BaseModel):
 
 
 class AccountInSchema(AccountBaseSchema, PasswordMixin): ...
+
+class AccountOutSchema(AccountBaseSchema):
+    balance: Decimal
