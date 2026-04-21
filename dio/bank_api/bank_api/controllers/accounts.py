@@ -83,3 +83,32 @@ async def login(
 @accounts_controller.get("/", status_code=status.HTTP_200_OK)
 async def get_current_account(account: CurrentAccount) -> AccountOutSchema:
     return account
+
+
+@accounts_controller.delete("/delete", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user(db: DatabaseDependency, account: CurrentAccount) -> None:
+    account_repository = AccountsRepository(db)
+
+    try:
+        account_db = await account_repository.get_account_by_query(
+            ssn=account.ssn
+        )
+
+        if account_db is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Account not found, try refresh your authenticaion token.",
+            )
+
+        await account_repository.delete_account(account_db.id)
+
+        return None
+
+    except DatabaseError as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+    except UnexpectedError as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
