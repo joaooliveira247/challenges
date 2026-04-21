@@ -1,7 +1,9 @@
-from tokenize import TokenError
-from typing import Any
+from __future__ import annotations
 
-from fastapi import HTTPException, status
+from tokenize import TokenError
+from typing import Annotated, Any
+
+from fastapi import Depends, HTTPException, status
 
 from bank_api.contrib.errors import DatabaseError, UnexpectedError
 from bank_api.core.token import verify_token_jwt
@@ -9,6 +11,8 @@ from bank_api.dependencies.database import DatabaseDependency
 from bank_api.dependencies.token import TokenDependency
 from bank_api.repositories.accounts import AccountsRepository
 from bank_api.schemas.accounts import AccountOutSchema
+
+CurrentAccount = Annotated[AccountOutSchema, Depends(get_current_user)]
 
 
 async def get_current_user(
