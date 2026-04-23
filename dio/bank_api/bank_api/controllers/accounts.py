@@ -90,17 +90,7 @@ async def delete_user(db: DatabaseDependency, account: CurrentAccount) -> None:
     account_repository = AccountsRepository(db)
 
     try:
-        account_db = await account_repository.get_account_by_query(
-            ssn=account.ssn
-        )
-
-        if account_db is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Account not found, try refresh your authenticaion token.",
-            )
-
-        await account_repository.delete_account(account_db.id)
+        await account_repository.delete_account(account.id)
 
         return None
 
