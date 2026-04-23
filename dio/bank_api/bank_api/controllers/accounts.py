@@ -82,7 +82,7 @@ async def login(
 
 @accounts_controller.get("/", status_code=status.HTTP_200_OK)
 async def get_current_account(account: CurrentAccount) -> AccountOutSchema:
-    return account
+    return AccountOutSchema(**account.__dict__)
 
 
 @accounts_controller.delete("/delete", status_code=status.HTTP_204_NO_CONTENT)
