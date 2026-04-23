@@ -9,6 +9,7 @@ from bank_api.contrib.errors import DatabaseError, UnexpectedError
 from bank_api.core.token import verify_token_jwt
 from bank_api.dependencies.database import DatabaseDependency
 from bank_api.dependencies.token import TokenDependency
+from bank_api.models.accounts import AccountModel
 from bank_api.repositories.accounts import AccountsRepository
 from bank_api.schemas.accounts import AccountOutSchema
 
@@ -17,7 +18,7 @@ CurrentAccount = Annotated[AccountOutSchema, Depends(get_current_user)]
 
 async def get_current_user(
     db: DatabaseDependency, token: TokenDependency
-) -> AccountOutSchema:
+) -> AccountModel:
     credencial_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         headers={"WWW-Authenticate": "Bearer"},
@@ -37,9 +38,7 @@ async def get_current_user(
             credencial_exception.detail = "Account can't be authenticated"
             raise credencial_exception
 
-        account_out = AccountOutSchema(**account.__dict__)
-
-        return account_out
+        return account
     except (TokenError, DatabaseError) as e:
         credencial_exception.detail = str(e)
         raise credencial_exception
