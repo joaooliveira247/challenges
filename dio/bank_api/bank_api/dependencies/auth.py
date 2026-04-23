@@ -13,7 +13,7 @@ from bank_api.models.accounts import AccountModel
 from bank_api.repositories.accounts import AccountsRepository
 from bank_api.schemas.accounts import AccountOutSchema
 
-CurrentAccount = Annotated[AccountOutSchema, Depends(get_current_user)]
+CurrentAccount = Annotated[AccountModel, Depends(get_current_user)]
 
 
 async def get_current_user(
