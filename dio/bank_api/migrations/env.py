@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from bank_api.contrib.models import BaseModel
 from bank_api.core.config import get_settings
-from bank_api.models import accounts
+from bank_api.models import accounts, transaction
 
 app_settings = get_settings()
 
