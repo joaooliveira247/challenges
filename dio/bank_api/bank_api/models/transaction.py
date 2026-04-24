@@ -9,7 +9,7 @@ from bank_api.contrib.models import BaseModel
 from bank_api.models.accounts import AccountModel
 
 
-class Transaction(BaseModel):
+class TransactionModel(BaseModel):
     __tablename__: str = "transactions"
 
     amount: Mapped[BIGINT] = mapped_column(BIGINT, nullable=False)
