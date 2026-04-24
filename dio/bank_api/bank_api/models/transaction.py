@@ -22,6 +22,15 @@ class TransactionModel(BaseModel):
 
     amount: Mapped[BIGINT] = mapped_column(BIGINT, nullable=False)
     balance_after: Mapped[BIGINT] = mapped_column(BIGINT, nullable=False)
+    status: Mapped[TransactionStatusEnum] = mapped_column(
+        Enum(
+            TransactionStatusEnum,
+            name="transaciont_status_enum",
+            native_enum=True,
+        ),
+        default=TransactionStatusEnum.ACCEPT,
+        nullable=False,
+    )
 
     account_id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True), ForeignKey("accounts.id"), nullable=False
