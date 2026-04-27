@@ -17,6 +17,11 @@ class TransactionStatusEnum(enum.StrEnum):
     ACCEPT = "accept"
 
 
+class TransactionTypeEnum(enum.StrEnum):
+    DEPOSIT = "deposit"
+    WITHDRAWAL = "withdrawal"
+
+
 class TransactionModel(BaseModel):
     __tablename__: str = "transactions"
 
