@@ -30,7 +30,7 @@ class TransactionModel(BaseModel):
     status: Mapped[TransactionStatusEnum] = mapped_column(
         Enum(
             TransactionStatusEnum,
-            name="transaciont_status_enum",
+            name="transaction_status_enum",
             native_enum=True,
         ),
         default=TransactionStatusEnum.ACCEPT,
