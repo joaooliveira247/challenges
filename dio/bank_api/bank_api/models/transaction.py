@@ -36,6 +36,12 @@ class TransactionModel(BaseModel):
         default=TransactionStatusEnum.ACCEPT,
         nullable=False,
     )
+    type: Mapped[TransactionTypeEnum] = mapped_column(
+        Enum(
+            TransactionTypeEnum, name="transaction_type_enum", native_enum=True
+        ),
+        nullable=False,
+    )
 
     account_id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True), ForeignKey("accounts.id"), nullable=False
