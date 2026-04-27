@@ -32,15 +32,18 @@ class TransactionModel(BaseModel):
             TransactionStatusEnum,
             name="transaction_status_enum",
             native_enum=True,
+            create_type=True,
         ),
         default=TransactionStatusEnum.ACCEPT,
         nullable=False,
     )
     type: Mapped[TransactionTypeEnum] = mapped_column(
         Enum(
-            TransactionTypeEnum, name="transaction_type_enum", native_enum=True
+            TransactionTypeEnum,
+            name="transaction_type_enum",
+            native_enum=True,
+            create_type=True,
         ),
-        nullable=False,
     )
 
     account_id: Mapped[UUID] = mapped_column(
