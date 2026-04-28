@@ -1,6 +1,7 @@
+from typing import Annotated
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, PositiveInt
 
 
 class CreatedSchameMixin(BaseModel):
@@ -13,3 +14,6 @@ class AccountCreatedSchema(CreatedSchameMixin): ...
 class AccountTokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
+
+
+Money = Annotated[int, PositiveInt]
