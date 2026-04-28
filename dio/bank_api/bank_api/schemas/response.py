@@ -1,7 +1,8 @@
+from decimal import Decimal
 from typing import Annotated
 from uuid import UUID
 
-from pydantic import BaseModel, PositiveInt
+from pydantic import BaseModel, Field
 
 
 class CreatedSchameMixin(BaseModel):
@@ -16,4 +17,4 @@ class AccountTokenResponse(BaseModel):
     token_type: str = "bearer"
 
 
-Money = Annotated[int, PositiveInt]
+Money = Annotated[Decimal, Field(gt=0)]
