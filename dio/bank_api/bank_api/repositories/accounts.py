@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -90,6 +90,33 @@ class AccountsRepository(BaseRepository):
                     await session.flush()
                     await session.commit()
                     return
+            except (OperationalError, IntegrityError) as e:
+                await self.db.rollback()
+                raise DatabaseError(str(e), resource=self.__class__.__name__)
+            except Exception as e:
+                await self.db.rollback()
+                raise UnexpectedError(
+                    str(e),
+                    location="database",
+                    resource=self.__class__.__name__,
+                )
+
+    async def update_balance(self, account_id: UUID, amount: int) -> None:
+        async with self.db as session:
+            try:
+                result = await session.execute(
+                    select(AccountModel).filter(AccountModel.id == account_id)
+                )
+
+                if update_account := result.scalars().one_or_none():
+                    update_account.balance = func.sum(
+                        update_account.balance, amount
+                    )
+                    
+                    await self.db.flush()
+                    await self.db.commit()
+                    return
+
             except (OperationalError, IntegrityError) as e:
                 await self.db.rollback()
                 raise DatabaseError(str(e), resource=self.__class__.__name__)
