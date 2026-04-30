@@ -1,7 +1,8 @@
-from decimal import Decimal
 import re
+from decimal import Decimal
 
 from pydantic import BaseModel, EmailStr, Field, field_validator
+from sqlalchemy.types import BIGINT
 
 
 class AccountBaseSchema(BaseModel):
@@ -17,7 +18,7 @@ class AccountBaseSchema(BaseModel):
         description="Brazilian CPF identification",
         max_length=11,
         min_length=11,
-        examples=["1234567810"]
+        examples=["1234567810"],
     )
 
     @field_validator("ssn")
@@ -78,5 +79,11 @@ class PasswordMixin(BaseModel):
 
 class AccountInSchema(AccountBaseSchema, PasswordMixin): ...
 
+
 class AccountOutSchema(AccountBaseSchema):
     balance: Decimal
+
+    @field_validator("balance", mode="before")
+    @classmethod
+    def cents_to_decimal(cls, v: int) -> Decimal:
+        return Decimal(v) / 100
