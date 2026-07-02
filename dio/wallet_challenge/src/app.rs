@@ -1,24 +1,23 @@
-use std::{collections::HashMap, sync::Arc};
-
 use axum::Router;
-use tokio::{net::TcpListener, sync::Mutex};
+use sqlx::PgPool;
+use tokio::net::TcpListener;
 use tracing::info;
 use tracing_subscriber::{
     Layer, fmt::format::FmtSpan, layer::SubscriberExt, util::SubscriberInitExt,
 };
 
-use crate::{models::assets::Asset, routes::api::router};
+use crate::routes::api::router;
 
 #[derive(Clone)]
 pub struct AppState {
-    pub assets: Arc<Mutex<HashMap<i64, Asset>>>,
+    pub db: PgPool,
 }
 
 impl AppState {
-    pub fn new() -> Self {
-        Self {
-            assets: Default::default(),
-        }
+    pub async fn new() -> color_eyre::Result<Self> {
+        let db_url = std::env::var("DATABASE_URL")?;
+        let db = PgPool::connect(&db_url).await?;
+        Ok(Self { db })
     }
 }
 
@@ -32,10 +31,11 @@ impl App {
 
         tracing_subscriber::registry().with(layer).init();
 
+        dotenvy::dotenv()?;
+        let state = AppState::new().await?;
+
         let listener = TcpListener::bind("127.0.0.1:8000").await?;
-        let router = Router::new()
-            .nest("/api", router())
-            .with_state(AppState::new());
+        let router = Router::new().nest("/api", router()).with_state(state);
         axum::serve(listener, router).await?;
 
         info!("🚀 Starting service at: 127.0.0.1:8000");

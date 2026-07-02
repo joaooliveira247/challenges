@@ -1,0 +1,12 @@
+services:
+  wallet_database:
+    image: postgres:16.13-alpine3.23
+    restart: "no"
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWD
+      POSTGRES_DB: $DB_NAME
+    ports:
+      - 5432:5432
